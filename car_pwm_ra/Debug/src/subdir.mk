@@ -6,20 +6,17 @@
 C_SRCS += \
 ../src/controller.c \
 ../src/hal_entry.c \
-../src/pwm_config.c \
-../src/uart0_t.c 
+../src/pwm_config.c 
 
 OBJS += \
 ./src/controller.o \
 ./src/hal_entry.o \
-./src/pwm_config.o \
-./src/uart0_t.o 
+./src/pwm_config.o 
 
 C_DEPS += \
 ./src/controller.d \
 ./src/hal_entry.d \
-./src/pwm_config.d \
-./src/uart0_t.d 
+./src/pwm_config.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

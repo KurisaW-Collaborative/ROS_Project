@@ -19,11 +19,6 @@
 rt_uint8_t path_num=5;
 //int turn_flag=0;
 
-//#define AIN1_PIN 0x0403
-//#define AIN2_PIN 0x0404
-//#define BIN1_PIN 0x0405
-//#define BIN2_PIN 0x0406
-
 #define AIN1_PIN "P403"
 #define AIN2_PIN "P404"
 #define BIN1_PIN "P405"
