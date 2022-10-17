@@ -36,7 +36,7 @@ int pwm_init(void)
     }
     else
     {
-        printf("pwm1 not find!\n");
+        rt_kprintf("pwm1 not find!\n");
     }
     ret = RT_EOK;
     if(pwm2)
@@ -49,7 +49,7 @@ int pwm_init(void)
     }
     else
     {
-        printf("pwm2 not find!\n");
+        rt_kprintf("pwm2 not find!\n");
     }
     return ret;
 }

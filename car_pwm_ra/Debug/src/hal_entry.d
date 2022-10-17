@@ -76,7 +76,8 @@ src/hal_entry.o: ../src/hal_entry.c \
  D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/ipc/ringblk_buf.h \
  D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/serial_v2.h \
  D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/pin.h \
- D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/rt_drv_pwm.h
+ D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/rt_drv_pwm.h \
+ ../src/controller.h
 D\:\RT-ThreadStudio\workspace\car_pwm_ra\rtconfig_preinc.h:
 D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\include/rtthread.h:
 D\:\RT-ThreadStudio\workspace\car_pwm_ra/rtconfig.h:
@@ -155,3 +156,4 @@ D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/ip
 D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/serial_v2.h:
 D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/pin.h:
 D\:\RT-ThreadStudio\workspace\car_pwm_ra\rt-thread\components\drivers\include/drivers/rt_drv_pwm.h:
+../src/controller.h:

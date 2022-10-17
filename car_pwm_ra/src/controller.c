@@ -54,7 +54,7 @@ int car_init(void)
     return ret;
 }
 //INIT_APP_EXPORT(car_init);
-MSH_CMD_EXPORT(car_init,car_init);
+//MSH_CMD_EXPORT(car_init,car_init);
 
 //extern int turn_flag;
 //extern rt_uint8_t a;
@@ -200,6 +200,8 @@ rt_err_t car_turn(int argc, char **argv)
 MSH_CMD_EXPORT(car_start,make car start);
 MSH_CMD_EXPORT(car_stop,make car stop);
 MSH_CMD_EXPORT(car_turn,make car turn);
+MSH_CMD_EXPORT(car_left,make car left);
+MSH_CMD_EXPORT(car_right,make car right);
 
 #endif
 

@@ -288,6 +288,8 @@
 #define BSP_USING_PWM
 #define BSP_USING_PWM7
 #define BSP_USING_PWM8
+
+#define SRC_CONTROLLER_H_
 /* end of On-chip Peripheral Drivers */
 
 /* Board extended module Drivers */
