@@ -22,16 +22,16 @@ void hal_entry(void)
 {
     rt_kprintf("\nHello RT-Thread!\n");
 
-    rt_err_t ret;
-    ret = car_init();
-    if(ret)
-    {
-        rt_kprintf("car init successful!\n");
-    }
-    else
-    {
-        rt_kprintf("car init failed!\n");
-    }
+//    rt_err_t ret;
+//    ret = car_init();
+//    if(ret)
+//    {
+//        rt_kprintf("car init successful!\n");
+//    }
+//    else
+//    {
+//        rt_kprintf("car init failed!\n");
+//    }
 
     while (1)
     {
