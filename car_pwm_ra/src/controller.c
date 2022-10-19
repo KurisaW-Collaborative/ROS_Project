@@ -53,7 +53,7 @@ int car_init(void)
     ret = pwm_init();
     return ret;
 }
-//INIT_APP_EXPORT(car_init);
+INIT_APP_EXPORT(car_init);
 //MSH_CMD_EXPORT(car_init,car_init);
 
 //extern int turn_flag;
