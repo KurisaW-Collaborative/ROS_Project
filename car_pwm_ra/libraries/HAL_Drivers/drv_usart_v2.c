@@ -142,7 +142,7 @@ static void ra_uart_get_config(void)
     uart_obj[UART3_INDEX].uart_dma_flag = 0;
 
     uart_obj[UART3_INDEX].serial.config.rx_bufsz = BSP_UART3_RX_BUFSIZE;
-    uart_obj[UART3_INDEX].serial.config.tx_bufsz = BSP_UART0_TX_BUFSIZE;
+    uart_obj[UART3_INDEX].serial.config.tx_bufsz = BSP_UART3_TX_BUFSIZE;
 #endif
 
 #ifdef BSP_USING_UART4

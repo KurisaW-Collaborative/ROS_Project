@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-10-16     金鑫       the first version
+ * 2022-10-16     閲戦懌       the first version
  */
 #include "controller.h"
 #include "stdlib.h"
@@ -15,7 +15,7 @@ rt_uint32_t ain1_pin,ain2_pin,bin1_pin,bin2_pin;
 extern struct rt_device_pwm * pwm1;
 extern struct rt_device_pwm * pwm2;
 
-extern rt_uint8_t path_num;
+//extern rt_uint8_t path_num;
 
 struct Controller controller = {
         .car_status = CAR_STOP,
@@ -65,8 +65,8 @@ rt_err_t car_start(int argc, char **argv)
     controller.car_status = CAR_RUN;
     if(argc == 2)
     {
-        path_num = atoi(argv[1]);
-        rt_kprintf("now path is %d\r\n",path_num);
+//        path_num = atoi(argv[1]);
+//        rt_kprintf("now path is %d\r\n",path_num);
     }
 //    turn_flag = 0;
 //    a = 0;
@@ -84,6 +84,163 @@ rt_err_t car_stop(void)
     rt_pwm_disable(pwm2, 0);
     return ret;
 }
+
+/************************************************/
+rt_err_t car_forward(void)
+{
+    rt_err_t ret = RT_EOK;
+//    rt_uint32_t times = 0;
+//    rt_uint32_t delay = 0;
+
+//    times = atoi(argv[1]);
+//    delay = atoi(argv[2]);
+    rt_enter_critical();    /* 杩涘叆涓寸晫鍖猴紝璋冨害鍣ㄤ笂閿侊紝绯荤粺浠嶇劧鍝嶅簲涓柇 */
+
+    rt_pin_write(ain1_pin, PIN_LOW);
+    rt_pin_write(ain2_pin, PIN_HIGH);
+    rt_pin_write(bin1_pin, PIN_LOW);
+    rt_pin_write(bin2_pin, PIN_HIGH);
+
+    pwm_set_pulse(pwm1,800000);
+    pwm_set_pulse(pwm2,800000);
+
+    rt_pwm_enable(pwm1, 0);
+    rt_pwm_enable(pwm2, 0);
+
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j < times; j++)
+//        {
+//            for(int k=0; k<6; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+    rt_exit_critical();     /* 璋冨害鍣ㄨВ閿� */
+
+    return ret;
+}
+MSH_CMD_EXPORT(car_forward,car_forward);
+
+rt_err_t car_backup(void)
+{
+    rt_err_t ret = RT_EOK;
+//    rt_uint32_t times = 0;
+//    rt_uint32_t delay = 0;
+
+//    times = atoi(argv[1]);
+//    delay = atoi(argv[2]);
+    rt_enter_critical();    /* 杩涘叆涓寸晫鍖猴紝璋冨害鍣ㄤ笂閿侊紝绯荤粺浠嶇劧鍝嶅簲涓柇 */
+
+    rt_pin_write(ain1_pin, PIN_HIGH);
+    rt_pin_write(ain2_pin, PIN_LOW);
+    rt_pin_write(bin1_pin, PIN_HIGH);
+    rt_pin_write(bin2_pin, PIN_LOW);
+
+    pwm_set_pulse(pwm1,800000);
+    pwm_set_pulse(pwm2,800000);
+
+    rt_pwm_enable(pwm1, 0);
+    rt_pwm_enable(pwm2, 0);
+
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j < times; j++)
+//        {
+//            for(int k=0; k<6; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+
+    rt_exit_critical();     /* 璋冨害鍣ㄨВ閿� */
+
+    return ret;
+}
+MSH_CMD_EXPORT(car_backup,car_backup);
+
+rt_err_t car_TL(void)
+{
+    rt_err_t ret = RT_EOK;
+//    rt_uint32_t times = 0;
+//    rt_uint32_t delay = 0;
+
+//    times = atoi(argv[1]);
+//    delay = atoi(argv[2]);
+    rt_enter_critical();    /* 杩涘叆涓寸晫鍖猴紝璋冨害鍣ㄤ笂閿侊紝绯荤粺浠嶇劧鍝嶅簲涓柇 */
+
+    rt_pin_write(ain1_pin, PIN_LOW);
+    rt_pin_write(ain2_pin, PIN_HIGH);
+    rt_pin_write(bin1_pin, PIN_HIGH);
+    rt_pin_write(bin2_pin, PIN_LOW);
+
+    pwm_set_pulse(pwm1,800000);
+    pwm_set_pulse(pwm2,800000);
+
+    rt_pwm_enable(pwm1, 0);
+    rt_pwm_enable(pwm2, 0);
+
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j < times; j++)
+//        {
+//            for(int k=0; k<6; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+
+    rt_exit_critical();     /* 璋冨害鍣ㄨВ閿� */
+
+    return ret;
+}
+MSH_CMD_EXPORT(car_TL,car_TL);
+
+rt_err_t car_TR(void)
+{
+    rt_err_t ret = RT_EOK;
+//    rt_uint32_t times = 0;
+//    rt_uint32_t delay = 0;
+
+//    times = atoi(argv[1]);
+//    delay = atoi(argv[2]);
+    rt_enter_critical();    /* 杩涘叆涓寸晫鍖猴紝璋冨害鍣ㄤ笂閿侊紝绯荤粺浠嶇劧鍝嶅簲涓柇 */
+
+    rt_pin_write(ain1_pin, PIN_HIGH);
+    rt_pin_write(ain2_pin, PIN_LOW);
+    rt_pin_write(bin1_pin, PIN_LOW);
+    rt_pin_write(bin2_pin, PIN_HIGH);
+
+    pwm_set_pulse(pwm1,800000);
+    pwm_set_pulse(pwm2,800000);
+
+    rt_pwm_enable(pwm1, 0);
+    rt_pwm_enable(pwm2, 0);
+
+//    for(int i=0; i<10; i++)
+//    {
+//        for(int j=0; j < times; j++)
+//        {
+//            for(int k=0; k<6; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+
+    rt_exit_critical();     /* 璋冨害鍣ㄨВ閿� */
+
+    return ret;
+}
+MSH_CMD_EXPORT(car_TR,car_TR);
+/************************************************/
 
 rt_err_t car_left(void)
 {
@@ -147,7 +304,7 @@ rt_err_t car_turn(int argc, char **argv)
 
     times = atoi(argv[1]);
     delay = atoi(argv[2]);
-    rt_enter_critical();    /* 进入临界区，调度器上锁，系统仍然响应中断 */
+    rt_enter_critical();    /* 杩涘叆涓寸晫鍖猴紝璋冨害鍣ㄤ笂閿侊紝绯荤粺浠嶇劧鍝嶅簲涓柇 */
 
     rt_pin_write(ain1_pin, PIN_LOW);
     rt_pin_write(ain2_pin, PIN_HIGH);
@@ -190,7 +347,7 @@ rt_err_t car_turn(int argc, char **argv)
     }
 
 //    a = 0;
-    rt_exit_critical();     /* 调度器解锁 */
+    rt_exit_critical();     /* 璋冨害鍣ㄨВ閿� */
 
     return ret;
 }

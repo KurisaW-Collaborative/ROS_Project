@@ -15,7 +15,7 @@
 #define RT_HOOK_USING_FUNC_PTR
 #define RT_USING_IDLE_HOOK
 #define RT_IDLE_HOOK_LIST_SIZE 4
-#define IDLE_THREAD_STACK_SIZE 512
+#define IDLE_THREAD_STACK_SIZE 256
 #define RT_USING_TIMER_SOFT
 #define RT_TIMER_THREAD_PRIO 4
 #define RT_TIMER_THREAD_STACK_SIZE 512
@@ -47,7 +47,7 @@
 #define RT_USING_DEVICE
 #define RT_USING_CONSOLE
 #define RT_CONSOLEBUF_SIZE 128
-#define RT_CONSOLE_DEVICE_NAME "uart7"
+#define RT_CONSOLE_DEVICE_NAME "uart3"
 /* end of Kernel Device Object */
 #define RT_VER_NUM 0x40100
 /* end of RT-Thread Kernel */
@@ -168,16 +168,6 @@
 
 /* tools packages */
 
-#define PKG_USING_SEGGER_RTT
-#define SEGGER_RTT_ENABLE
-#define SEGGER_RTT_MAX_NUM_UP_BUFFERS 3
-#define SEGGER_RTT_MAX_NUM_DOWN_BUFFERS 3
-#define BUFFER_SIZE_UP 1024
-#define BUFFER_SIZE_DOWN 16
-#define SEGGER_RTT_PRINTF_BUFFER_SIZE 64
-#define RTT_DEFAULT_BUFFER_INDEX 0
-#define RTT_DEFAULT_TERMINAL_INDEX 0
-#define PKG_USING_SEGGER_RTT_LATEST_VERSION
 /* end of tools packages */
 
 /* system packages */
@@ -282,14 +272,15 @@
 
 #define BSP_USING_GPIO
 #define BSP_USING_UART
+#define BSP_USING_UART3
+#define BSP_UART3_RX_BUFSIZE 256
+#define BSP_UART3_TX_BUFSIZE 0
 #define BSP_USING_UART7
 #define BSP_UART7_RX_BUFSIZE 256
 #define BSP_UART7_TX_BUFSIZE 0
 #define BSP_USING_PWM
 #define BSP_USING_PWM7
 #define BSP_USING_PWM8
-
-#define SRC_CONTROLLER_H_
 /* end of On-chip Peripheral Drivers */
 
 /* Board extended module Drivers */

@@ -3,7 +3,7 @@
         #define VECTOR_DATA_H
                 /* Number of interrupts allocated */
         #ifndef VECTOR_DATA_IRQ_COUNT
-        #define VECTOR_DATA_IRQ_COUNT    (5)
+        #define VECTOR_DATA_IRQ_COUNT    (9)
         #endif
         /* ISR prototypes */
         void sci_uart_rxi_isr(void);
@@ -23,4 +23,12 @@
         #define SCI7_ERI_IRQn          ((IRQn_Type) 3) /* SCI7 ERI (Receive error) */
         #define VECTOR_NUMBER_ICU_IRQ0 ((IRQn_Type) 4) /* ICU IRQ0 (External pin interrupt 0) */
         #define ICU_IRQ0_IRQn          ((IRQn_Type) 4) /* ICU IRQ0 (External pin interrupt 0) */
+        #define VECTOR_NUMBER_SCI3_RXI ((IRQn_Type) 5) /* SCI3 RXI (Received data full) */
+        #define SCI3_RXI_IRQn          ((IRQn_Type) 5) /* SCI3 RXI (Received data full) */
+        #define VECTOR_NUMBER_SCI3_TXI ((IRQn_Type) 6) /* SCI3 TXI (Transmit data empty) */
+        #define SCI3_TXI_IRQn          ((IRQn_Type) 6) /* SCI3 TXI (Transmit data empty) */
+        #define VECTOR_NUMBER_SCI3_TEI ((IRQn_Type) 7) /* SCI3 TEI (Transmit end) */
+        #define SCI3_TEI_IRQn          ((IRQn_Type) 7) /* SCI3 TEI (Transmit end) */
+        #define VECTOR_NUMBER_SCI3_ERI ((IRQn_Type) 8) /* SCI3 ERI (Receive error) */
+        #define SCI3_ERI_IRQn          ((IRQn_Type) 8) /* SCI3 ERI (Receive error) */
         #endif /* VECTOR_DATA_H */

@@ -1,5 +1,5 @@
 ################################################################################
-# è‡ªåŠ¨ç”Ÿæˆçš„æ–‡ä»¶ã€‚ä¸è¦ç¼–è¾‘ï¼
+# ×Ô¶¯Éú³ÉµÄÎÄ¼ş¡£²»Òª±à¼­£¡
 ################################################################################
 
 -include ../makefile.init
@@ -25,8 +25,6 @@ RM := rm -rf
 -include ra/fsp/src/r_gpt/subdir.mk
 -include ra/fsp/src/bsp/mcu/all/subdir.mk
 -include ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/subdir.mk
--include packages/SEGGER_RTT-latest/adapter/subdir.mk
--include packages/SEGGER_RTT-latest/RTT/subdir.mk
 -include libraries/HAL_Drivers/subdir.mk
 -include board/ports/subdir.mk
 -include subdir.mk
@@ -57,12 +55,12 @@ SECONDARY_SIZE += \
 rtthread.siz \
 
 
-# æ‰€æœ‰ç›®æ ‡
+# ËùÓĞÄ¿±ê
 all: rtthread.elf secondary-outputs
 
-# å·¥å…·è°ƒç”¨
+# ¹¤¾ßµ÷ÓÃ
 rtthread.elf: $(OBJS) $(USER_OBJS)
-	arm-none-eabi-gcc -T "D:\RT-ThreadStudio\workspace\ROS_Project-Team\car_pwm_ra\script\fsp.ld" -Xlinker --gc-sections -L"D:\RT-ThreadStudio\workspace\ROS_Project-Team\car_pwm_ra\script" -Wl,-Map,"rtthread.map" -Xlinker --cref -mcpu=cortex-m33 -mthumb -mfpu=fpv5-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,Reset_Handler -L script/ -o "rtthread.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -T "D:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_Project-Team\car_pwm_ra\script\fsp.ld" -Xlinker --gc-sections -L"D:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_Project-Team\car_pwm_ra\script" -Wl,-Map,"rtthread.map" -Xlinker --cref -mcpu=cortex-m33 -mthumb -mfpu=fpv5-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,Reset_Handler -L script/ -o "rtthread.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 
 rtthread.hex: rtthread.elf
 	arm-none-eabi-objcopy -O ihex "rtthread.elf"  "rtthread.hex"
@@ -70,7 +68,7 @@ rtthread.hex: rtthread.elf
 rtthread.siz: rtthread.elf
 	arm-none-eabi-size --format=berkeley "rtthread.elf"
 
-# å…¶ä»–ç›®æ ‡
+# ÆäËûÄ¿±ê
 clean:
 	-$(RM) $(OBJS)$(SECONDARY_FLASH)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS) rtthread.elf
 	-@echo ' '

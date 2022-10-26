@@ -13,7 +13,7 @@
 #include "hal_data.h"
 #include <rtdevice.h>
 
-#include "controller.h"
+#include "finsh_uart.h"
 
 #define LED3_PIN    BSP_IO_PORT_01_PIN_06
 #define USER_INPUT  "P105"
@@ -22,19 +22,10 @@ void hal_entry(void)
 {
     rt_kprintf("\nHello RT-Thread!\n");
 
-//    rt_err_t ret;
-//    ret = car_init();
-//    if(ret)
-//    {
-//        rt_kprintf("car init successful!\n");
-//    }
-//    else
-//    {
-//        rt_kprintf("car init failed!\n");
-//    }
-
     while (1)
     {
+//        rt_thread_startup(finsh_uart_thread);
+        finsh_uart_thread();
         rt_pin_write(LED3_PIN, PIN_HIGH);
         rt_thread_mdelay(500);
         rt_pin_write(LED3_PIN, PIN_LOW);

@@ -7,8 +7,8 @@
  * Date           Author       Notes
  * 2022-10-16     金鑫       the first version
  */
-#ifndef SRC_CONTROLLER_H_
-#define SRC_CONTROLLER_H_
+#ifndef _SRC_CONTROLLER_H_
+#define _SRC_CONTROLLER_H_
 
 #include <rtthread.h>
 #include <rtdevice.h>
@@ -16,7 +16,7 @@
 #include "pwm_config.h"
 
 #define ENABLE_CAR_MSH 1
-rt_uint8_t path_num=5;
+//rt_uint8_t path_num=5;
 //int turn_flag=0;
 
 #define AIN1_PIN "P403"
@@ -61,6 +61,11 @@ rt_err_t car_stop(void);
 rt_err_t car_left(void);
 rt_err_t car_right(void);
 rt_err_t car_turn(int argc, char **argv);
+
+rt_err_t car_forward(void);
+rt_err_t car_backup(void);
+rt_err_t car_TL(void);
+rt_err_t car_TR(void);
 
 #endif /* SRC_CONTROLLER_H_ */
 
