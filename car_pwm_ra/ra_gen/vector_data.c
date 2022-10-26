@@ -9,6 +9,10 @@
             [2] = sci_uart_tei_isr, /* SCI7 TEI (Transmit end) */
             [3] = sci_uart_eri_isr, /* SCI7 ERI (Receive error) */
             [4] = r_icu_isr, /* ICU IRQ0 (External pin interrupt 0) */
+            [5] = sci_uart_rxi_isr, /* SCI3 RXI (Received data full) */
+            [6] = sci_uart_txi_isr, /* SCI3 TXI (Transmit data empty) */
+            [7] = sci_uart_tei_isr, /* SCI3 TEI (Transmit end) */
+            [8] = sci_uart_eri_isr, /* SCI3 ERI (Receive error) */
         };
         const bsp_interrupt_event_t g_interrupt_event_link_select[BSP_ICU_VECTOR_MAX_ENTRIES] =
         {
@@ -17,5 +21,9 @@
             [2] = BSP_PRV_IELS_ENUM(EVENT_SCI7_TEI), /* SCI7 TEI (Transmit end) */
             [3] = BSP_PRV_IELS_ENUM(EVENT_SCI7_ERI), /* SCI7 ERI (Receive error) */
             [4] = BSP_PRV_IELS_ENUM(EVENT_ICU_IRQ0), /* ICU IRQ0 (External pin interrupt 0) */
+            [5] = BSP_PRV_IELS_ENUM(EVENT_SCI3_RXI), /* SCI3 RXI (Received data full) */
+            [6] = BSP_PRV_IELS_ENUM(EVENT_SCI3_TXI), /* SCI3 TXI (Transmit data empty) */
+            [7] = BSP_PRV_IELS_ENUM(EVENT_SCI3_TEI), /* SCI3 TEI (Transmit end) */
+            [8] = BSP_PRV_IELS_ENUM(EVENT_SCI3_ERI), /* SCI3 ERI (Receive error) */
         };
         #endif

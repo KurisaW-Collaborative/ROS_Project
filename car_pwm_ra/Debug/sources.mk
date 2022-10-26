@@ -1,5 +1,5 @@
 ################################################################################
-# 鑷姩鐢熸垚鐨勬枃浠躲�備笉瑕佺紪杈戯紒
+# 自动生成的文件。不要编辑！
 ################################################################################
 
 ELF_SRCS := 
@@ -21,8 +21,6 @@ C_DEPS :=
 SUBDIRS := \
 board/ports \
 libraries/HAL_Drivers \
-packages/SEGGER_RTT-latest/RTT \
-packages/SEGGER_RTT-latest/adapter \
 ra/fsp/src/bsp/cmsis/Device/RENESAS/Source \
 ra/fsp/src/bsp/mcu/all \
 ra/fsp/src/r_gpt \
