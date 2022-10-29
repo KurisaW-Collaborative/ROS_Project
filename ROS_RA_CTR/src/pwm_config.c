@@ -15,10 +15,10 @@ struct rt_device_pwm * pwm1 = RT_NULL;
 struct rt_device_pwm * pwm2 = RT_NULL;
 
 rt_uint32_t pwm1_period = 1000000;
-rt_uint32_t pwm1_pulse = 500000;
+rt_uint32_t pwm1_pulse =  700000;
 
 rt_uint32_t pwm2_period = 1000000;
-rt_uint32_t pwm2_pulse = 500000;
+rt_uint32_t pwm2_pulse =  700000;
 
 /* pwm init */
 int pwm_init(void)
@@ -29,6 +29,9 @@ int pwm_init(void)
     if(pwm1)
     {
         ret = rt_pwm_set(pwm1,PWM1_CH,pwm1_period,pwm1_pulse);
+        rt_kprintf("pwm1_pulse  is %dms\n",pwm1_pulse/100000);
+        rt_kprintf("pwm1_period is %dms\n",pwm1_period/100000);
+        rt_kprintf("The current speed with pwm1 is %d% \n",pwm1_pulse/pwm1_period*100);
         if(ret<0)
         {
             rt_kprintf("pwm1_set: %d\r\n",ret);
@@ -42,6 +45,9 @@ int pwm_init(void)
     if(pwm2)
     {
         ret = rt_pwm_set(pwm2,PWM2_CH,pwm2_period,pwm2_pulse);
+        rt_kprintf("pwm2_pulse  is %dms\n",pwm2_pulse/100000);
+        rt_kprintf("pwm2_period is %dms\n",pwm2_period/100000);
+        rt_kprintf("The current speed with pwm2 is %d% \n",pwm2_pulse / (pwm2_period) * 100);
         if(ret<0)
         {
             rt_kprintf("pwm2_set: %d\r\n",ret);
