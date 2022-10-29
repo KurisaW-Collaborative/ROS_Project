@@ -23,6 +23,6 @@ extern rt_err_t car_TL(void);
 extern rt_err_t car_TR(void);
 extern rt_err_t car_stop(void);
 
-int uart3_blutooth(void);
+int uart_raspi_init(void);
 
 #endif /* SRC_HC_06_H_ */

@@ -11,6 +11,7 @@
 
 #include <rtthread.h>
 #include <rtdevice.h>
+#include <rtdef.h>
 
 #include "uart_raspi.h"
 
@@ -19,7 +20,7 @@ rt_sem_t uart3_rx_sem = RT_NULL;
 
 struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;      /* 初始化配置参数 */
 
-static struct rt_thread HC_05_thread;
+static struct rt_thread uart_raspi_thread;
 static char thread_stack[1024];
 
 /* 串口设备句柄 */
@@ -50,7 +51,7 @@ static int uart_getchar(void)
 }
 
 
-static void HC_05_thread_entry(void *parameter)
+static void uart_raspi_thread_entry(void *parameter)
 {
     int ch = 0;
 
@@ -66,6 +67,7 @@ static void HC_05_thread_entry(void *parameter)
         rt_kprintf("3. car turn left  :please input <l> || <L>\r\n");
         rt_kprintf("4. car turn right :please input <r> || <R>\r\n");
         rt_kprintf("5. car stop       :please input <p> || <P>\r\n");
+        rt_kprintf("6. exit menu      :please input <c> || <C>\r\n");
 
         if (ch < 0)
         {
@@ -74,13 +76,15 @@ static void HC_05_thread_entry(void *parameter)
 
         /*
          * handle control key
-         * go forward: 0x66 0x46 ->'f'&&'F'
-         * go backup:  0x62 0x42 ->'b'&&'B'
-         * turn left:  0x6c 0x4c ->'l'&&'L'
-         * turn right: 0x72 0x52 ->'r'&&'R'
-         * car stop:   0x70 0x50 ->'p'&&'P'
+         * go forward: 0x77 0x57   ->'w'&&'W'
+         * go backup:  0x73 0x53 ->'s'&&'S'
+         * turn left:  0x61 0x41 ->'a'&&'A'
+         * turn right: 0x64 0x44 ->'d'&&'D'
+         * car stop:   0x70 0x50   ->'p'&&'P'
+         * exit menu:  0x3         ->'ctrl'+'C'
          */
-        if (ch == 0x66 || ch == 0x46)
+
+        if (ch == 0x77 || ch == 0x57)
         {
             rt_enter_critical();
             car_forward();
@@ -88,7 +92,7 @@ static void HC_05_thread_entry(void *parameter)
             rt_kprintf("0x%x:car_forward\n",ch);
             continue;
         }
-        else if (ch == 0x62 || ch == 0x42)
+        else if (ch == 0x73 || ch == 0x53)
         {
             rt_enter_critical();
             car_backup();
@@ -96,7 +100,7 @@ static void HC_05_thread_entry(void *parameter)
             rt_kprintf("0x%x:car_backup\n",ch);
             continue;
         }
-        else if (ch == 0x6c || ch == 0x4c)
+        else if (ch == 0x61 || ch == 0x41)
         {
             rt_enter_critical();
             car_TL();
@@ -104,7 +108,7 @@ static void HC_05_thread_entry(void *parameter)
             rt_kprintf("0x%x:car_TL\n",ch);
             continue;
         }
-        else if (ch == 0x72 || ch == 0x52)
+        else if (ch == 0x64 || ch == 0x44)
         {
             rt_enter_critical();
             car_TR();
@@ -112,6 +116,7 @@ static void HC_05_thread_entry(void *parameter)
             rt_kprintf("0x%x:car_TR\n",ch);
             continue;
         }
+
         else if (ch == 0x70 || ch == 0x50)
         {
             rt_enter_critical();
@@ -120,78 +125,18 @@ static void HC_05_thread_entry(void *parameter)
             rt_kprintf("0x%x:car_stop\n",ch);
             continue;
         }
-
-//        char c = 0;
-//        c = *buf;
-//        rt_kprintf("'c' value is %c \n",c);
-//        if(c == 'f')
-//        {
-//            rt_enter_critical();
-//            car_forward();
-//            rt_exit_critical();
-//            rt_kprintf("car_forward...%s\n",buf);
-//        }
-//        else if(c == 'b')
-//        {
-//            rt_enter_critical();
-//            car_backup();
-//            rt_exit_critical();
-//            rt_kprintf("car_backup...%s\n",buf);
-//        }
-//        else
-//        {
-//            rt_enter_critical();
-//            car_stop();
-//            rt_exit_critical();
-//            rt_kprintf("car_stop...%s\n",buf);
-//        }
-
-//            switch(*buf)
-//            {
-//            case 'f':
-//                rt_enter_critical();
-//                car_forward();
-//                rt_exit_critical();
-//                rt_kprintf("car_forward...\n");
-//                break;
-//            case 'b':
-//                rt_enter_critical();
-//                car_backup();
-//                rt_exit_critical();
-//                rt_kprintf("car_backup...\n");
-//                break;
-//            case 'l':
-//                rt_enter_critical();
-//                car_TL();
-//                rt_exit_critical();
-//                rt_kprintf("car_TL...\n");
-//                break;
-//            case 'r':
-//                rt_enter_critical();
-//                car_TR();
-//                rt_exit_critical();
-//                rt_kprintf("car_TR...\n");
-//                break;
-//            case 's':
-//                rt_enter_critical();
-//                car_stop();
-//                rt_exit_critical();
-//                rt_kprintf("car_stop...\n");
-//                break;
-//            default:
-//                break;
-//            }
+        else if(ch == 0x3)
+        {
+            rt_kprintf("exit control!\n");
+//            break;
+            return ;
         }
-//        else
-//        {
-//            rt_kprintf("rt_device_write failed...\n");
-//        }
-//    }
+    }
+
 }
 
-int uart3_blutooth(void)
+int uart_raspi_init(void)
 {
-//    rt_err_t result;
     char *buf;
 
     config.baud_rate = BAUD_RATE_115200;        /* 修改串口波特率 */
@@ -218,17 +163,17 @@ int uart3_blutooth(void)
 
     rt_device_write(serial, 0, &buf, sizeof(&buf));
 
-    rt_thread_init(&HC_05_thread,                 /* 创建一个邮箱接收数据的线程 */
-                    "HC_05_thread",
-                    HC_05_thread_entry,
+    rt_thread_init(&uart_raspi_thread,                 /* 创建一个邮箱接收数据的线程 */
+                    "uart_raspi_thread",
+                    uart_raspi_thread_entry,
                     RT_NULL,
                     &thread_stack[0],
                     sizeof(thread_stack),
                     15,
                     1000);
-    rt_thread_startup(&HC_05_thread);
+    rt_thread_startup(&uart_raspi_thread);
 
     return 0;
 }
-INIT_APP_EXPORT(uart3_blutooth);
-//MSH_CMD_EXPORT(uart3_blutooth,uart3_blutooth);
+//INIT_APP_EXPORT(uart_raspi_init);
+MSH_CMD_EXPORT(uart_raspi_init,uart_raspi_init);
