@@ -32,6 +32,8 @@ sudo raspi-config
 
 #### 7、[ubuntu ros话题通信(rospy)](https://blog.csdn.net/yiwang1670831/article/details/125431750?ops_request_misc=&request_id=&biz_id=102&utm_term=ubuntu%E4%BD%BF%E7%94%A8ROS%E8%BF%9B%E8%A1%8CTopic%E9%80%9A%E4%BF%A1&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-2-125431750.142^v59^new_blog_pos_by_title,201^v3^control_1&spm=1018.2226.3001.4187)
 
+
+
 #### 8、[树莓派4B安装Ubuntu18.04 + vnc远程桌面](https://blog.csdn.net/m0_52364631/article/details/112439570?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522166711697016782412584464%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=166711697016782412584464&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~pc_rank_34-4-112439570-null-null.142^v62^pc_new_rank,201^v3^control_1,213^v1^control&utm_term=%E6%A0%91%E8%8E%93%E6%B4%BE%E5%9C%A8ubuntu%E4%BD%BF%E7%94%A8vnc&spm=1018.2226.3001.4187)
 
 
