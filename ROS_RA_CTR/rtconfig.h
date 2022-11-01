@@ -62,6 +62,19 @@
 #define RT_USING_USER_MAIN
 #define RT_MAIN_THREAD_STACK_SIZE 2048
 #define RT_MAIN_THREAD_PRIORITY 10
+#define RT_USING_MSH
+#define RT_USING_FINSH
+#define FINSH_USING_MSH
+#define FINSH_THREAD_NAME "tshell"
+#define FINSH_THREAD_PRIORITY 20
+#define FINSH_THREAD_STACK_SIZE 4096
+#define FINSH_USING_HISTORY
+#define FINSH_HISTORY_LINES 5
+#define FINSH_USING_SYMTAB
+#define FINSH_CMD_SIZE 80
+#define MSH_USING_BUILT_IN_COMMANDS
+#define FINSH_USING_DESCRIPTION
+#define FINSH_ARG_MAX 10
 
 /* Device Drivers */
 
@@ -69,8 +82,12 @@
 #define RT_USING_SERIAL
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
+#define RT_USING_I2C
+#define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
 #define RT_USING_PWM
+#define RT_USING_SENSOR
+#define RT_USING_SENSOR_CMD
 
 /* Using USB */
 
@@ -178,6 +195,12 @@
 
 /* peripheral libraries and drivers */
 
+#define PKG_USING_SENSORS_DRIVERS
+#define PKG_USING_MPU6XXX
+#define PKG_USING_MPU6XXX_LATEST_VERSION
+#define PKG_USING_MPU6XXX_ACCE
+#define PKG_USING_MPU6XXX_GYRO
+#define PKG_USING_MPU6XXX_MAG
 
 /* Kendryte SDK */
 
@@ -265,9 +288,18 @@
 #define BSP_USING_UART7
 #define BSP_UART7_RX_BUFSIZE 256
 #define BSP_UART7_TX_BUFSIZE 0
+#define BSP_USING_I2C
+#define BSP_USING_I2C1
+#define BSP_I2C1_SCL_PIN 0x0512
+#define BSP_I2C1_SDA_PIN 0x0511
 #define BSP_USING_PWM
 #define BSP_USING_PWM7
 #define BSP_USING_PWM8
+
+#define BSP_USING_I2C
+#define BSP_USING_I2C0
+#define BSP_I2C0_SCL_PIN 0x400
+#define BSP_I2C0_SDA_PIN 0x401
 /* end of On-chip Peripheral Drivers */
 
 /* Board extended module Drivers */
