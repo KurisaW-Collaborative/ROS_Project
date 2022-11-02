@@ -1,0 +1,18 @@
+<launch>
+
+    
+    <node pkg="robot_bringup" type="robot_bringup" name="robot_bringup" output="screen" />
+
+    
+    <param name="robot_description" textfile="$(find robot_description)/urdf/robot_with_laser.urdf" /> 
+    
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />  
+    
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+    
+    <include file="$(find robot_bringup)/launch/ld14.launch" />
+
+</launch>

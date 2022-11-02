@@ -1,0 +1,8 @@
+prefix=/home/ks/tutorial_ws/install
+
+Name: ros_code
+Description: Description of ros_code
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
