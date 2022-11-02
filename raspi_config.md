@@ -69,7 +69,7 @@ nautilus &
 gnome-terminal &
 ```
 
-**2、chmod 777 xstartup**
+**2、sudo chmod 777 ~/.vnc/xstartup**
 
 **3、vncserver -kill :2**
 
