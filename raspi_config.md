@@ -10,7 +10,8 @@
 
 #### 3、[树莓派4B motion摄像头（解决卡顿）相关配置](https://blog.csdn.net/qq_18471449/article/details/104119071)
 
-
+启动：sudo motion
+关闭：sudo killall -TERM motion
 
 #### 4、树莓派可视化菜单
 
@@ -69,7 +70,7 @@ nautilus &
 gnome-terminal &
 ```
 
-**2、chmod 777 xstartup**
+**2、sudo chmod 777 ~/.vnc/xstartup**
 
 **3、vncserver -kill :2**
 
