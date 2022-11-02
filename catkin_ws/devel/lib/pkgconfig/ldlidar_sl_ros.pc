@@ -1,0 +1,8 @@
+prefix=/home/ks/tutorial_ws/devel
+
+Name: ldlidar_sl_ros
+Description: Description of ldlidar_sl_ros
+Version: 2.2.3
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
