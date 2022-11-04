@@ -16,11 +16,8 @@
 
 重启服务：sudo service motion restart
 
-#### 4、树莓派可视化菜单
+#### 4、[树莓派视频流,详细步骤使用Motion搭建网络摄像头服务器](https://www.labno3.com/2021/08/10/build-a-raspberry-pi-webcam-server-in-minutes/)
 
-```
-sudo raspi-config
-```
 
 
 
