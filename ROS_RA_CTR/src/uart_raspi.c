@@ -8,20 +8,15 @@
  * 2022-10-22     Yifang       the first version
  */
 /* 实现串口中断方式进行串口字符的读取 */
-
-#include <rtthread.h>
-#include <rtdevice.h>
-#include <rtdef.h>
-
 #include "uart_raspi.h"
+
+/* 用于pid基准值 */
+rt_uint32_t number = 0;
 
 /* 串口信号量 */
 rt_sem_t uart3_rx_sem = RT_NULL;
 
 struct serial_configure config = RT_SERIAL_CONFIG_DEFAULT;      /* 初始化配置参数 */
-
-static struct rt_thread uart_raspi_thread;
-static char thread_stack[1024];
 
 /* 串口设备句柄 */
 static rt_device_t serial;
@@ -54,82 +49,89 @@ static int uart_getchar(void)
 static void uart_raspi_thread_entry(void *parameter)
 {
     int ch = 0;
+    int char_flag = RT_NULL;        //输入字符标志位
+//    fsp_err_t err = FSP_SUCCESS;
+
+    /* 定时器使能，用于捕获中断引脚计数 */
+    (void) R_GPT_Enable(&g_timer3_ctrl);
+    (void) R_GPT_Enable(&g_timer2_ctrl);
+
+    /* car control menu */
+    rt_kprintf("please input your control mode:\n");
+    rt_kprintf("1. car go forward :please input <f> || <F>\r\n");
+    rt_kprintf("2. car go backup  :please input <b> || <B>\r\n");
+    rt_kprintf("3. car turn left  :please input <l> || <L>\r\n");
+    rt_kprintf("4. car turn right :please input <r> || <R>\r\n");
+    rt_kprintf("5. car stop       :please input <p> || <P>\r\n");
+    rt_kprintf("6. exit menu      :please input <c> || <C>\r\n");
 
     while(1)
     {
-        ch = (int)uart_getchar();
-        rt_kprintf("Write data is 0x%x\n",ch);
+        while((ch = (int)uart_getchar()) != RT_NULL)
+        {
+            rt_kprintf("Write data is 0x%x\n",ch);
 
-        /* car control menu */
-        rt_kprintf("please input your control mode:\n");
-        rt_kprintf("1. car go forward :please input <f> || <F>\r\n");
-        rt_kprintf("2. car go backup  :please input <b> || <B>\r\n");
-        rt_kprintf("3. car turn left  :please input <l> || <L>\r\n");
-        rt_kprintf("4. car turn right :please input <r> || <R>\r\n");
-        rt_kprintf("5. car stop       :please input <p> || <P>\r\n");
-        rt_kprintf("6. exit menu      :please input <c> || <C>\r\n");
+            if(ch != RT_NULL)       // 对输入字符进行检测，如果收到字符，将标志位置1
+            {
+                char_flag = 1;
+                if (ch < 0)
+                {
+                    continue;
+                }
 
-        if (ch < 0)
-        {
-            continue;
-        }
+                if (ch == 0x77 || ch == 0x57)
+                {
+                    rt_kprintf("0x%x:car_forward\n",ch);
+                    car_forward();
+                    char_flag = 0;
 
-        /*
-         * handle control key
-         * go forward: 0x77 0x57   ->'w'&&'W'
-         * go backup:  0x73 0x53 ->'s'&&'S'
-         * turn left:  0x61 0x41 ->'a'&&'A'
-         * turn right: 0x64 0x44 ->'d'&&'D'
-         * car stop:   0x70 0x50   ->'p'&&'P'
-         * exit menu:  0x3         ->'ctrl'+'C'
-         */
+                    continue;
+                }
+                else if (ch == 0x73 || ch == 0x53)
+                {
+                    rt_kprintf("0x%x:car_backup\n",ch);
+                    car_backup();
+                    char_flag = 0;
 
-        if (ch == 0x77 || ch == 0x57)
-        {
-            rt_enter_critical();
-            car_forward();
-            rt_exit_critical();
-            rt_kprintf("0x%x:car_forward\n",ch);
-            continue;
-        }
-        else if (ch == 0x73 || ch == 0x53)
-        {
-            rt_enter_critical();
-            car_backup();
-            rt_exit_critical();
-            rt_kprintf("0x%x:car_backup\n",ch);
-            continue;
-        }
-        else if (ch == 0x61 || ch == 0x41)
-        {
-            rt_enter_critical();
-            car_TL();
-            rt_exit_critical();
-            rt_kprintf("0x%x:car_TL\n",ch);
-            continue;
-        }
-        else if (ch == 0x64 || ch == 0x44)
-        {
-            rt_enter_critical();
-            car_TR();
-            rt_exit_critical();
-            rt_kprintf("0x%x:car_TR\n",ch);
-            continue;
-        }
+                    continue;
+                }
+                else if (ch == 0x61 || ch == 0x41)
+                {
+                    rt_kprintf("0x%x:car_TL\n",ch);
+                    car_TL();
+                    char_flag = 0;
 
-        else if (ch == 0x70 || ch == 0x50)
-        {
-            rt_enter_critical();
-            car_stop();
-            rt_exit_critical();
-            rt_kprintf("0x%x:car_stop\n",ch);
-            continue;
-        }
-        else if(ch == 0x3)
-        {
-            rt_kprintf("exit control!\n");
-//            break;
-            return ;
+                    continue;
+                }
+                else if (ch == 0x64 || ch == 0x44)
+                {
+                    rt_kprintf("0x%x:car_TR\n",ch);
+                    car_TR();
+                    char_flag = 0;
+
+                    continue;
+                }
+
+                else if (ch == 0x70 || ch == 0x50)
+                {
+                    rt_kprintf("0x%x:car_stop\n",ch);
+                    car_stop();
+                    char_flag = 0;
+
+                    continue;
+                }
+                else if(ch == 0x3)
+                {
+                    rt_kprintf("exit control!\n");
+                    char_flag = 0;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
         }
     }
 
@@ -163,15 +165,8 @@ int uart_raspi_init(void)
 
     rt_device_write(serial, 0, &buf, sizeof(&buf));
 
-    rt_thread_init(&uart_raspi_thread,                 /* 创建一个邮箱接收数据的线程 */
-                    "uart_raspi_thread",
-                    uart_raspi_thread_entry,
-                    RT_NULL,
-                    &thread_stack[0],
-                    sizeof(thread_stack),
-                    15,
-                    1000);
-    rt_thread_startup(&uart_raspi_thread);
+    rt_thread_t ret = rt_thread_create("uart_raspi_thread", uart_raspi_thread_entry, RT_NULL, 2048, 15, 1000);
+    rt_thread_startup(ret);
 
     return 0;
 }

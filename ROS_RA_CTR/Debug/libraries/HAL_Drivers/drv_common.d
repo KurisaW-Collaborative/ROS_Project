@@ -7,6 +7,7 @@ libraries/HAL_Drivers/drv_common.o: ../libraries/HAL_Drivers/drv_common.c \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtdef.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtservice.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtm.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\finsh/finsh.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rthw.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/rtdevice.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/ringbuffer.h \
@@ -17,9 +18,17 @@ libraries/HAL_Drivers/drv_common.o: ../libraries/HAL_Drivers/drv_common.c \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/pipe.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/poll.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/ringblk_buf.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/rtc.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/serial_v2.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/i2c.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/i2c_dev.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/i2c-bit-ops.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/pin.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/sensor.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/pin.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/hwtimer.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/rt_drv_pwm.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/pulse_encoder.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/bsp_api.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc/fsp_common_api.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc/fsp_version.h \
@@ -66,6 +75,8 @@ libraries/HAL_Drivers/drv_common.o: ../libraries/HAL_Drivers/drv_common.c \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\board/board.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers/drv_gpio.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtdbg.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\utilities\ulog/ulog.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\utilities\ulog/ulog_def.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_gen/hal_data.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_gen/common_data.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_ioport.h \
@@ -73,14 +84,17 @@ libraries/HAL_Drivers/drv_common.o: ../libraries/HAL_Drivers/drv_common.c \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/bsp_api.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_ioport_cfg.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg\bsp/bsp_pin_cfg.h \
- D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_gpt.h \
- D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_timer_api.h \
- D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_sci_uart.h \
- D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_uart_api.h \
- D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_transfer_api.h \
- D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_sci_uart_cfg.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_icu.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_external_irq_api.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_gpt.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_timer_api.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_iic_master.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_iic_master_cfg.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_i2c_master_api.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_transfer_api.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_sci_uart.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_uart_api.h \
+ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_sci_uart_cfg.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers/drv_usart_v2.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers\config/drv_config.h \
  D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers\config/ra6m4/uart_config.h \
@@ -93,6 +107,7 @@ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtde
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtdef.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtservice.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtm.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\finsh/finsh.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rthw.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/rtdevice.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/ringbuffer.h:
@@ -103,9 +118,17 @@ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\d
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/pipe.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/poll.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/ipc/ringblk_buf.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/rtc.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/serial_v2.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/i2c.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/i2c_dev.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/i2c-bit-ops.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/pin.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/sensor.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/pin.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/hwtimer.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/rt_drv_pwm.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\drivers\include/drivers/pulse_encoder.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/bsp_api.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc/fsp_common_api.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc/fsp_version.h:
@@ -152,6 +175,8 @@ d\:\rt-thread\rt-threadstudio\workspace_backup\ros_ra_ctr\ra\fsp\src\bsp\mcu\all
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\board/board.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers/drv_gpio.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\include/rtdbg.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\utilities\ulog/ulog.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\rt-thread\components\utilities\ulog/ulog_def.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_gen/hal_data.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_gen/common_data.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_ioport.h:
@@ -159,14 +184,17 @@ D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_iopor
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/bsp_api.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_ioport_cfg.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg\bsp/bsp_pin_cfg.h:
-D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_gpt.h:
-D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_timer_api.h:
-D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_sci_uart.h:
-D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_uart_api.h:
-D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_transfer_api.h:
-D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_sci_uart_cfg.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_icu.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_external_irq_api.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_gpt.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_timer_api.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_iic_master.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_iic_master_cfg.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_i2c_master_api.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_transfer_api.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\instances/r_sci_uart.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra\fsp\inc\api/r_uart_api.h:
+D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\ra_cfg\fsp_cfg/r_sci_uart_cfg.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers/drv_usart_v2.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers\config/drv_config.h:
 D\:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\libraries\HAL_Drivers\config/ra6m4/uart_config.h:

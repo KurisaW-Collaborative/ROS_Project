@@ -15,10 +15,10 @@ struct rt_device_pwm * pwm1 = RT_NULL;
 struct rt_device_pwm * pwm2 = RT_NULL;
 
 rt_uint32_t pwm1_period = 1000000;
-rt_uint32_t pwm1_pulse =  700000;
+rt_uint32_t pwm1_pulse =  300000;
 
 rt_uint32_t pwm2_period = 1000000;
-rt_uint32_t pwm2_pulse =  700000;
+rt_uint32_t pwm2_pulse =  300000;
 
 /* pwm init */
 int pwm_init(void)

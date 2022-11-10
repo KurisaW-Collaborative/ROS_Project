@@ -82,12 +82,16 @@
 #define RT_USING_SERIAL
 #define RT_USING_SERIAL_V2
 #define RT_SERIAL_USING_DMA
+#define RT_USING_HWTIMER
 #define RT_USING_I2C
 #define RT_USING_I2C_BITOPS
 #define RT_USING_PIN
 #define RT_USING_PWM
+#define RT_USING_RTC
+#define RT_USING_SOFT_RTC
 #define RT_USING_SENSOR
 #define RT_USING_SENSOR_CMD
+#define RT_USING_PULSE_ENCODER
 
 /* Using USB */
 
@@ -116,6 +120,21 @@
 
 /* Utilities */
 
+#define RT_USING_ULOG
+#define ULOG_OUTPUT_LVL_I
+#define ULOG_OUTPUT_LVL 6
+#define ULOG_USING_ISR_LOG
+#define ULOG_ASSERT_ENABLE
+#define ULOG_LINE_BUF_SIZE 128
+
+/* log format */
+
+#define ULOG_USING_COLOR
+#define ULOG_OUTPUT_TIME
+#define ULOG_OUTPUT_LEVEL
+#define ULOG_OUTPUT_TAG
+/* end of log format */
+#define ULOG_BACKEND_USING_CONSOLE
 /* end of Utilities */
 /* end of RT-Thread Components */
 
@@ -195,12 +214,18 @@
 
 /* peripheral libraries and drivers */
 
-#define PKG_USING_SENSORS_DRIVERS
+/* sensors drivers */
+
 #define PKG_USING_MPU6XXX
 #define PKG_USING_MPU6XXX_LATEST_VERSION
 #define PKG_USING_MPU6XXX_ACCE
 #define PKG_USING_MPU6XXX_GYRO
 #define PKG_USING_MPU6XXX_MAG
+/* end of sensors drivers */
+
+/* touch drivers */
+
+/* end of touch drivers */
 
 /* Kendryte SDK */
 

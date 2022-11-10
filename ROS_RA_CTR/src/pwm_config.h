@@ -17,8 +17,8 @@
 #define PWM1_DEV_NAME   ("pwm8")
 #define PWM1_CH         (0)
 
-#define PWM2_DEV_NAME   ("pwm7")
-#define PWM2_CH         (0)
+#define PWM2_DEV_NAME   ("pwm8")
+#define PWM2_CH         (1)
 
 #define PWM_PERIOD  1000000
 
