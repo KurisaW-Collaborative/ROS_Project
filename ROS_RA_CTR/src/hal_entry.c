@@ -19,7 +19,6 @@
 
 #include "src/encoder_cb.h"
 #include "controller.h"
-#include "alarm_count.h"
 
 #define LED3_PIN    BSP_IO_PORT_01_PIN_06
 #define USER_INPUT  "P105"
@@ -59,7 +58,7 @@ void hal_entry(void)
      (void) R_GPT_Start(&g_timer2_ctrl);
 
 
-     /* Ê¹ÄÜÒı½ÅÖĞ¶Ï */
+     /* ä½¿èƒ½å¼•è„šä¸­æ–­ */
      err =  R_ICU_ExternalIrqEnable(&g_external_irq1_ctrl);
      assert(FSP_SUCCESS == err);
 
@@ -105,40 +104,40 @@ MSH_CMD_EXPORT(icu_sample, icu sample);
 
 //void RTC_Init(void)
 //{
-//    /**********ÈÕÆÚºê¶¨Òå**********/
-//    #define RTC_YEAR_SET 2022       //Äê
-//    #define RTC_MON_SET 8           //ÔÂ
-//    #define RTC_MDAY_SET 3          //ÈÕ
-//    /*Í¨¹ı²ÌÀÕ¹«Ê½¼ÆËãĞÇÆÚ*/
+//    /**********æ—¥æœŸå®å®šä¹‰**********/
+//    #define RTC_YEAR_SET 2022       //å¹´
+//    #define RTC_MON_SET 8           //æœˆ
+//    #define RTC_MDAY_SET 3          //æ—¥
+//    /*é€šè¿‡è”¡å‹’å…¬å¼è®¡ç®—æ˜ŸæœŸ*/
 //    #define RTC_WDAY_SET (RTC_YEAR_SET-2000 \
 //                      + ((RTC_YEAR_SET-2000)/4) \
 //                      - 35 + (26*(RTC_MON_SET+1))/10 \
 //                      + RTC_MDAY_SET -1 )%7
 //
-//    /**********Ê±¼äºê¶¨Òå**********/
-//    #define RTC_HOUR_SET 0          //Ê±
-//    #define RTC_SEC_SET 0           //Ãë
-//    #define RTC_MIN_SET 0           //·Ö
+//    /**********æ—¶é—´å®å®šä¹‰**********/
+//    #define RTC_HOUR_SET 0          //æ—¶
+//    #define RTC_SEC_SET 0           //ç§’
+//    #define RTC_MIN_SET 0           //åˆ†
 //
-//   //³õÊ¼»¯Ê±Éè¶¨µÄÊ±¼ä
+//   //åˆå§‹åŒ–æ—¶è®¾å®šçš„æ—¶é—´
 //   rtc_time_t set_time =
-//   { .tm_sec = RTC_SEC_SET,  //Ãë
-//     .tm_min = RTC_MIN_SET,  //·Ö
-//     .tm_hour = RTC_HOUR_SET,  //Ğ¡Ê±
-//     .tm_mday = RTC_MDAY_SET,  //ÈÕ£¨Ò»¸öÔÂÖĞ£©
-//     .tm_wday = RTC_WDAY_SET,   //ĞÇÆÚ
-//     .tm_mon = RTC_MON_SET,   //ÔÂ·İ
-//     .tm_year = RTC_YEAR_SET-1900, //Äê·İ£¨Èç½ñÄêÊÇ2022£¬ÔòÕâÀïÊäÈë2022-1900=122£©
+//   { .tm_sec = RTC_SEC_SET,  //ç§’
+//     .tm_min = RTC_MIN_SET,  //åˆ†
+//     .tm_hour = RTC_HOUR_SET,  //å°æ—¶
+//     .tm_mday = RTC_MDAY_SET,  //æ—¥ï¼ˆä¸€ä¸ªæœˆä¸­ï¼‰
+//     .tm_wday = RTC_WDAY_SET,   //æ˜ŸæœŸ
+//     .tm_mon = RTC_MON_SET,   //æœˆä»½
+//     .tm_year = RTC_YEAR_SET-1900, //å¹´ä»½ï¼ˆå¦‚ä»Šå¹´æ˜¯2022ï¼Œåˆ™è¿™é‡Œè¾“å…¥2022-1900=122ï¼‰
 //   };
-//   /*´ò¿ªRTCÄ£¿é*/
+//   /*æ‰“å¼€RTCæ¨¡å—*/
 //   R_RTC_Open (g_rtc0.p_ctrl, g_rtc0.p_cfg);
-//   /*Ê±ÖÓÔ´ÉèÖÃ£¬Èç¹ûÔÚFSP ConfigurationÉèÖÃ"Set Source Clock in Open"Îª"enabled"£¬ÄÇÕâÒ»²½¿ÉÒÔ±»Ìø¹ı*/
+//   /*æ—¶é’Ÿæºè®¾ç½®ï¼Œå¦‚æœåœ¨FSP Configurationè®¾ç½®"Set Source Clock in Open"ä¸º"enabled"ï¼Œé‚£è¿™ä¸€æ­¥å¯ä»¥è¢«è·³è¿‡*/
 //   R_RTC_ClockSourceSet (g_rtc0.p_ctrl);
-//   /*ÈôRTCÊ±ÖÓÒÑ¾­Ê¹ÓÃÅ¦¿Ûµç³Ø¹¤×÷ÁËÒ»¶ÎÊ±¼ä£¬Ôò¿ÉÒÔÊ¹ÓÃÕâ¸öº¯Êı»ñÈ¡µ±Ç°ÈÕÀú²¢ÉèÖÃµ±Ç°Ê±¼ä*/
+//   /*è‹¥RTCæ—¶é’Ÿå·²ç»ä½¿ç”¨çº½æ‰£ç”µæ± å·¥ä½œäº†ä¸€æ®µæ—¶é—´ï¼Œåˆ™å¯ä»¥ä½¿ç”¨è¿™ä¸ªå‡½æ•°è·å–å½“å‰æ—¥å†å¹¶è®¾ç½®å½“å‰æ—¶é—´*/
 //   //R_RTC_CalendarTimeGet(RTC.p_ctrl,&set_time);
-//   /*Õâ¸öº¯ÊıÖÁÉÙµ÷ÓÃÒ»´ÎÒÔÆô¶¯RTC*/
-//   R_RTC_CalendarTimeSet (g_rtc0.p_ctrl, &set_time); //ÉèÖÃµ±Ç°Ê±¼ä
-//   /*ÉèÖÃÖÜÆÚÖĞ¶ÏµÄÖÜÆÚÎª1Ãë*/
+//   /*è¿™ä¸ªå‡½æ•°è‡³å°‘è°ƒç”¨ä¸€æ¬¡ä»¥å¯åŠ¨RTC*/
+//   R_RTC_CalendarTimeSet (g_rtc0.p_ctrl, &set_time); //è®¾ç½®å½“å‰æ—¶é—´
+//   /*è®¾ç½®å‘¨æœŸä¸­æ–­çš„å‘¨æœŸä¸º1ç§’*/
 //   R_RTC_PeriodicIrqRateSet (g_rtc0.p_ctrl, RTC_PERIODIC_IRQ_SELECT_1_SECOND);
 //}
 
