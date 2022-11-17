@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/zhaoekexeu/catkin_google_ws/install_isolated/include/**",
+                "/home/zhaoekexeu/catkin_myws/devel/include/**",
+                "/home/zhaoekexeu/catkin_ws/devel/include/**",
+                "/opt/ros/kinetic/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/charging_hub_recognition/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/CBH_cycle_nav/cycle_nav/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/driver_common/driver_base/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/hokuyo_node/include/**",
+                "/home/zhaoekexeu/catkin_myws/src/learning_communication/include/**",
+                "/home/zhaoekexeu/catkin_myws/src/learning_tf/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/lesson2_tf/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/map_server-master/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/my_show_path/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/my_show_scan_path/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/my_slam_gmapping/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/CBH_cycle_nav/nav_panel/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/CBH_cycle_nav/nav_tool/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/OccupanyMappingProject/src/occupany_mapping/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/robot_voice/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/rrt_exploration/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/send_goal_demo/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/driver_common/timestamp_tools/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/timesync/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/topic_example/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/usb_cam/include/**",
+                "/home/zhaoekexeu/catkin_ws/src/warehouse_ros/include/**",
+                "/home/zhaoekexeu/catkin_myws/src/work1_new_turtle2/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
