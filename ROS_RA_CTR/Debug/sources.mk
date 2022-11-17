@@ -21,18 +21,27 @@ C_DEPS :=
 SUBDIRS := \
 board/ports \
 libraries/HAL_Drivers \
+packages/mpu6xxx-latest/src \
 ra/fsp/src/bsp/cmsis/Device/RENESAS/Source \
 ra/fsp/src/bsp/mcu/all \
 ra/fsp/src/r_gpt \
 ra/fsp/src/r_icu \
+ra/fsp/src/r_iic_master \
 ra/fsp/src/r_ioport \
 ra/fsp/src/r_sci_uart \
 ra_gen \
+rt-thread/components/drivers/hwtimer \
+rt-thread/components/drivers/i2c \
 rt-thread/components/drivers/ipc \
 rt-thread/components/drivers/misc \
+rt-thread/components/drivers/rtc \
+rt-thread/components/drivers/sensors \
 rt-thread/components/drivers/serial \
+rt-thread/components/finsh \
 rt-thread/components/libc/compilers/common \
 rt-thread/components/libc/compilers/newlib \
+rt-thread/components/utilities/ulog/backend \
+rt-thread/components/utilities/ulog \
 rt-thread/libcpu/arm/common \
 rt-thread/libcpu/arm/cortex-m4 \
 rt-thread/src \

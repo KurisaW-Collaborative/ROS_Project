@@ -15,8 +15,8 @@ rt_uint32_t ain1_pin,ain2_pin,bin1_pin,bin2_pin;
 extern struct rt_device_pwm * pwm1;
 extern struct rt_device_pwm * pwm2;
 
-rt_uint32_t pulse1_val = 700000;
-rt_uint32_t pulse2_val = 700000;
+rt_uint32_t pulse1_val = 300000;
+rt_uint32_t pulse2_val = 300000;
 
 //extern rt_uint8_t path_num;
 
@@ -94,7 +94,6 @@ rt_err_t car_stop(void)
 rt_err_t car_forward(void)
 {
     rt_err_t ret = RT_EOK;
-//    rt_enter_critical();    /* 閺夆晜绋戦崣鍡樼▔鐎靛憡娅曢柛鏍皑缁辨繄鎷崘銊ヮ唺闁革絻鍔嬬粭鍌炴煥娓氬﹦绀夌紒顖濆吹缁儤绂掑鍥уЁ闁告繂绉寸花鍙夌▔椤撶喐鐒� */
 
     rt_pin_write(ain1_pin, PIN_LOW);
     rt_pin_write(ain2_pin, PIN_HIGH);
@@ -110,11 +109,11 @@ rt_err_t car_forward(void)
     return ret;
 }
 MSH_CMD_EXPORT(car_forward,car_forward);
+//INIT_APP_EXPORT(car_forward);
 
 rt_err_t car_backup(void)
 {
     rt_err_t ret = RT_EOK;
-//    rt_enter_critical();    /* 閺夆晜绋戦崣鍡樼▔鐎靛憡娅曢柛鏍皑缁辨繄鎷崘銊ヮ唺闁革絻鍔嬬粭鍌炴煥娓氬﹦绀夌紒顖濆吹缁儤绂掑鍥уЁ闁告繂绉寸花鍙夌▔椤撶喐鐒� */
 
     rt_pin_write(ain1_pin, PIN_HIGH);
     rt_pin_write(ain2_pin, PIN_LOW);
@@ -135,7 +134,6 @@ rt_err_t car_TL(void)
 {
     rt_err_t ret = RT_EOK;
 
-    rt_enter_critical();    /* 閺夆晜绋戦崣鍡樼▔鐎靛憡娅曢柛鏍皑缁辨繄鎷崘銊ヮ唺闁革絻鍔嬬粭鍌炴煥娓氬﹦绀夌紒顖濆吹缁儤绂掑鍥уЁ闁告繂绉寸花鍙夌▔椤撶喐鐒� */
 
     rt_pin_write(ain1_pin, PIN_LOW);
     rt_pin_write(ain2_pin, PIN_HIGH);
@@ -152,9 +150,9 @@ rt_err_t car_TL(void)
     pwm_set_pulse(pwm1,pulse1_val_L);
     pwm_set_pulse(pwm2,pulse2_val_R);
 
-    for(int i = 0;i < 500; i++)
+    for(int i = 0;i < 50; i++)
     {
-        for(int j = 0; j < 500; j++)
+        for(int j = 0; j < 50; j++)
         {
             pwm_set_pulse(pwm1,pulse1_val_L);
             pwm_set_pulse(pwm2,pulse2_val_R);
@@ -163,10 +161,9 @@ rt_err_t car_TL(void)
         }
     }
 
-//    pwm_disable(pwm1);
-//    pwm_disable(pwm2);
+    pwm_disable(pwm1);
+    pwm_disable(pwm2);
 
-    rt_exit_critical();     /* 閻犲鍟�规娊宕抽妸銊愭帡鏌ㄩ敓锟� */
 
     return ret;
 }
@@ -175,8 +172,6 @@ MSH_CMD_EXPORT(car_TL,car_TL);
 rt_err_t car_TR(void)
 {
     rt_err_t ret = RT_EOK;
-
-    rt_enter_critical();    /* 閺夆晜绋戦崣鍡樼▔鐎靛憡娅曢柛鏍皑缁辨繄鎷崘銊ヮ唺闁革絻鍔嬬粭鍌炴煥娓氬﹦绀夌紒顖濆吹缁儤绂掑鍥уЁ闁告繂绉寸花鍙夌▔椤撶喐鐒� */
 
     rt_pin_write(ain1_pin, PIN_HIGH);
     rt_pin_write(ain2_pin, PIN_LOW);
@@ -192,9 +187,9 @@ rt_err_t car_TR(void)
     pwm_set_pulse(pwm1,pulse1_val_L);
     pwm_set_pulse(pwm2,pulse2_val_R);
 
-    for(int i = 0;i < 500; i++)
+    for(int i = 0;i < 50; i++)
     {
-        for(int j = 0; j < 500; j++)
+        for(int j = 0; j < 50; j++)
         {
             pwm_set_pulse(pwm1,pulse1_val_L);
             pwm_set_pulse(pwm2,pulse2_val_R);
@@ -203,10 +198,8 @@ rt_err_t car_TR(void)
         }
     }
 
-//    pwm_disable(pwm1);
-//    pwm_disable(pwm2);
-
-    rt_exit_critical();     /* 閻犲鍟�规娊宕抽妸銊愭帡鏌ㄩ敓锟� */
+    pwm_disable(pwm1);
+    pwm_disable(pwm2);
 
     return ret;
 }
@@ -299,6 +292,7 @@ rt_err_t car_turn(int argc, char **argv)
             }
         }
     }
+
 
     rt_pin_write(ain1_pin, PIN_HIGH);
     rt_pin_write(ain2_pin, PIN_LOW);
