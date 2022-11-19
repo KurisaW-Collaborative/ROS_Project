@@ -22,6 +22,9 @@
 
 
 #### 5、[（学习笔记）树莓派4B使用usb转串口通讯模块](https://blog.csdn.net/m0_50679156/article/details/115799847)
+```
+sudo minicom -D /dev/ttyUSB0 -b 115200 
+```
 
 
 
