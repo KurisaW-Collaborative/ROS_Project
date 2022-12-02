@@ -5,8 +5,10 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-10-16     闂佸弶鍨块幊锟�       the first version
+ * 2022-11-06     Yifang       the first version
  */
+
+
 #include "controller.h"
 #include "stdlib.h"
 
@@ -15,8 +17,11 @@ rt_uint32_t ain1_pin,ain2_pin,bin1_pin,bin2_pin;
 extern struct rt_device_pwm * pwm1;
 extern struct rt_device_pwm * pwm2;
 
-rt_uint32_t pulse1_val = 300000;
-rt_uint32_t pulse2_val = 300000;
+extern rt_uint32_t pwm1_period;
+extern rt_uint32_t pwm2_period;
+
+extern rt_uint32_t pwm1_pulse;
+extern rt_uint32_t pwm2_pulse;
 
 //extern rt_uint8_t path_num;
 
@@ -28,9 +33,6 @@ struct Controller controller = {
         .right_pulse = PWM_PERCENT_INIT,
         .start = car_start,
         .stop = car_stop,
-        .left = car_left,
-        .right = car_right,
-        .turn = car_turn
 };
 
 int car_init(void)
@@ -100,11 +102,12 @@ rt_err_t car_forward(void)
     rt_pin_write(bin1_pin, PIN_LOW);
     rt_pin_write(bin2_pin, PIN_HIGH);
 
-    pwm_set_pulse(pwm1,pulse1_val);
-    pwm_set_pulse(pwm2,pulse2_val);
+    pwm_set_pulse(pwm1,pwm1_pulse);
+    pwm_set_pulse(pwm2,pwm2_pulse);
 
     rt_pwm_enable(pwm1, 0);
     rt_pwm_enable(pwm2, 0);
+//    pid_init();
 
     return ret;
 }
@@ -120,11 +123,12 @@ rt_err_t car_backup(void)
     rt_pin_write(bin1_pin, PIN_HIGH);
     rt_pin_write(bin2_pin, PIN_LOW);
 
-    pwm_set_pulse(pwm1,pulse1_val);
-    pwm_set_pulse(pwm2,pulse2_val);
+    pwm_set_pulse(pwm1,pwm1_pulse);
+    pwm_set_pulse(pwm2,pwm2_pulse);
 
     rt_pwm_enable(pwm1, 0);
     rt_pwm_enable(pwm2, 0);
+//    pid_init();
 
     return ret;
 }
@@ -144,20 +148,20 @@ rt_err_t car_TL(void)
     rt_pwm_enable(pwm2, 0);
 
 
-    int pulse1_val_L = 300000;
-    int pulse2_val_R = 300000;
+    int pulse1_val_L = pwm1_period * 0.9;
+    int pulse2_val_R = pwm2_period * 0.9;
 
     pwm_set_pulse(pwm1,pulse1_val_L);
     pwm_set_pulse(pwm2,pulse2_val_R);
 
     for(int i = 0;i < 50; i++)
     {
-        for(int j = 0; j < 50; j++)
+        for(int j = 0; j < 100; j++)
         {
             pwm_set_pulse(pwm1,pulse1_val_L);
             pwm_set_pulse(pwm2,pulse2_val_R);
-            pulse1_val_L -= 120;
-            pulse2_val_R -= 120;
+            pulse1_val_L -= pulse1_val_L / 5000;
+            pulse2_val_R -= pulse2_val_R / 5000;
         }
     }
 
@@ -181,20 +185,20 @@ rt_err_t car_TR(void)
     rt_pwm_enable(pwm1, 0);
     rt_pwm_enable(pwm2, 0);
 
-    int pulse1_val_L = 300000;
-    int pulse2_val_R = 300000;
+    int pulse1_val_L = pwm1_period * 0.9;
+    int pulse2_val_R = pwm2_period * 0.9;
 
     pwm_set_pulse(pwm1,pulse1_val_L);
     pwm_set_pulse(pwm2,pulse2_val_R);
 
     for(int i = 0;i < 50; i++)
     {
-        for(int j = 0; j < 50; j++)
+        for(int j = 0; j < 100; j++)
         {
             pwm_set_pulse(pwm1,pulse1_val_L);
             pwm_set_pulse(pwm2,pulse2_val_R);
-            pulse1_val_L -= 120;
-            pulse2_val_R -= 120;
+            pulse1_val_L -= pulse1_val_L / 5000;
+            pulse2_val_R -= pulse2_val_R / 5000;
         }
     }
 
@@ -204,126 +208,138 @@ rt_err_t car_TR(void)
     return ret;
 }
 MSH_CMD_EXPORT(car_TR,car_TR);
+
+
+void car_control(float rightspeed,float leftspeed)//小车速度转化和控制函数
+{
+    float k2=17.179;         //速度转换比例,转/分钟
+    //将从串口接收到的速度转换成实际控制小车的速度？还是PID？
+    int right_speed=(int)k2*rightspeed;
+    int left_speed=(int)k2*leftspeed;
+
+    pwm_set_pulse(pwm1, right_speed+10000);
+    pwm_set_pulse(pwm2, left_speed+10000);
+}
 /************************************************/
+//
+//rt_err_t car_left(void)
+//{
+//    rt_err_t ret = RT_EOK;
+//
+//    pwm_set_pulse(pwm1, 350000);
+//    pwm_set_pulse(pwm2, PWM_PERIOD);
+//
+//    rt_kprintf("turn left\r\n");
+//
+//    for(int i=0; i<1000; i++)
+//    {
+//        for(int j=0; j<1000; j++)
+//        {
+//            for(int k=0; k<5; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+//    rt_kprintf("exit left!\r\n");
+//    pwm_set_pulse(pwm1, PWM_PERIOD * controller.left_pulse / 100);
+//    pwm_set_pulse(pwm2, PWM_PERIOD * controller.right_pulse / 100);
+//
+//    return ret;
+//}
+//
+//rt_err_t car_right(void)
+//{
+//    rt_err_t ret = RT_EOK;
+//
+//    pwm_set_pulse(pwm1, PWM_PERIOD);
+//    pwm_set_pulse(pwm2, 350000);
+//
+//    rt_kprintf("turn left\r\n");
+//
+//    for(int i=0; i<1000; i++)
+//    {
+//        for(int j=0; j<1000; j++)
+//        {
+//            for(int k=0; k<5; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+//    rt_kprintf("exit right!\r\n");
+//    pwm_set_pulse(pwm1, PWM_PERIOD * controller.left_pulse / 100);
+//    pwm_set_pulse(pwm2, PWM_PERIOD * controller.right_pulse / 100);
+//
+//    return ret;
+//}
 
-rt_err_t car_left(void)
-{
-    rt_err_t ret = RT_EOK;
-
-    pwm_set_pulse(pwm1, 350000);
-    pwm_set_pulse(pwm2, PWM_PERIOD);
-
-    rt_kprintf("turn left\r\n");
-
-    for(int i=0; i<1000; i++)
-    {
-        for(int j=0; j<1000; j++)
-        {
-            for(int k=0; k<5; k++)
-            {
-                int h = 0;
-                h++;
-            }
-        }
-    }
-    rt_kprintf("exit left!\r\n");
-    pwm_set_pulse(pwm1, PWM_PERIOD * controller.left_pulse / 100);
-    pwm_set_pulse(pwm2, PWM_PERIOD * controller.right_pulse / 100);
-
-    return ret;
-}
-
-rt_err_t car_right(void)
-{
-    rt_err_t ret = RT_EOK;
-
-    pwm_set_pulse(pwm1, PWM_PERIOD);
-    pwm_set_pulse(pwm2, 350000);
-
-    rt_kprintf("turn left\r\n");
-
-    for(int i=0; i<1000; i++)
-    {
-        for(int j=0; j<1000; j++)
-        {
-            for(int k=0; k<5; k++)
-            {
-                int h = 0;
-                h++;
-            }
-        }
-    }
-    rt_kprintf("exit right!\r\n");
-    pwm_set_pulse(pwm1, PWM_PERIOD * controller.left_pulse / 100);
-    pwm_set_pulse(pwm2, PWM_PERIOD * controller.right_pulse / 100);
-
-    return ret;
-}
-
-rt_err_t car_turn(int argc, char **argv)
-{
-    rt_err_t ret = RT_EOK;
-    rt_uint32_t times = 0;
-    rt_uint32_t delay = 0;
-
-    times = atoi(argv[1]);
-    delay = atoi(argv[2]);
-    rt_enter_critical();    /* 閺夆晜绋戦崣鍡樼▔鐎靛憡娅曢柛鏍皑缁辨繄鎷崘銊ヮ唺闁革絻鍔嬬粭鍌炴煥娓氬﹦绀夌紒顖濆吹缁儤绂掑鍥уЁ闁告繂绉寸花鍙夌▔椤撶喐鐒� */
-
-    rt_pin_write(ain1_pin, PIN_LOW);
-    rt_pin_write(ain2_pin, PIN_HIGH);
-    rt_pin_write(bin1_pin, PIN_HIGH);
-    rt_pin_write(bin2_pin, PIN_LOW);
-
-    pwm_set_pulse(pwm1,800000);
-    pwm_set_pulse(pwm2,800000);
-
-    rt_pwm_enable(pwm1, 0);
-    rt_pwm_enable(pwm2, 0);
-
-    for(int i=0; i<1000; i++)
-    {
-        for(int j=0; j < times; j++)
-        {
-            for(int k=0; k<6; k++)
-            {
-                int h = 0;
-                h++;
-            }
-        }
-    }
-
-
-    rt_pin_write(ain1_pin, PIN_HIGH);
-    rt_pin_write(ain2_pin, PIN_LOW);
-    rt_pin_write(bin1_pin, PIN_HIGH);
-    rt_pin_write(bin2_pin, PIN_LOW);
-
-    for(int i=0; i<1000; i++)
-    {
-        for(int j=0; j < delay; j++)
-        {
-            for(int k=0; k<4; k++)
-            {
-                int h = 0;
-                h++;
-            }
-        }
-    }
-
-//    a = 0;
-    rt_exit_critical();     /* 閻犲鍟�规娊宕抽妸銊愭帡鏌ㄩ敓锟� */
-
-    return ret;
-}
+//rt_err_t car_turn(int argc, char **argv)
+//{
+//    rt_err_t ret = RT_EOK;
+//    rt_uint32_t times = 0;
+//    rt_uint32_t delay = 0;
+//
+//    times = atoi(argv[1]);
+//    delay = atoi(argv[2]);
+//    rt_enter_critical();    /* 閺夆晜绋戦崣鍡樼▔鐎靛憡娅曢柛鏍皑缁辨繄鎷崘銊ヮ唺闁革絻鍔嬬粭鍌炴煥娓氬﹦绀夌紒顖濆吹缁儤绂掑鍥уЁ闁告繂绉寸花鍙夌▔椤撶喐鐒� */
+//
+//    rt_pin_write(ain1_pin, PIN_LOW);
+//    rt_pin_write(ain2_pin, PIN_HIGH);
+//    rt_pin_write(bin1_pin, PIN_HIGH);
+//    rt_pin_write(bin2_pin, PIN_LOW);
+//
+//    pwm_set_pulse(pwm1,800000);
+//    pwm_set_pulse(pwm2,800000);
+//
+//    rt_pwm_enable(pwm1, 0);
+//    rt_pwm_enable(pwm2, 0);
+//
+//    for(int i=0; i<1000; i++)
+//    {
+//        for(int j=0; j < times; j++)
+//        {
+//            for(int k=0; k<6; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+//
+//
+//    rt_pin_write(ain1_pin, PIN_HIGH);
+//    rt_pin_write(ain2_pin, PIN_LOW);
+//    rt_pin_write(bin1_pin, PIN_HIGH);
+//    rt_pin_write(bin2_pin, PIN_LOW);
+//
+//    for(int i=0; i<1000; i++)
+//    {
+//        for(int j=0; j < delay; j++)
+//        {
+//            for(int k=0; k<4; k++)
+//            {
+//                int h = 0;
+//                h++;
+//            }
+//        }
+//    }
+//
+////    a = 0;
+//    rt_exit_critical();
+//
+//    return ret;
+//}
 
 #if(ENABLE_CAR_MSH)
 
 MSH_CMD_EXPORT(car_start,make car start);
 MSH_CMD_EXPORT(car_stop,make car stop);
-MSH_CMD_EXPORT(car_turn,make car turn);
-MSH_CMD_EXPORT(car_left,make car left);
-MSH_CMD_EXPORT(car_right,make car right);
+//MSH_CMD_EXPORT(car_turn,make car turn);
+//MSH_CMD_EXPORT(car_left,make car left);
+//MSH_CMD_EXPORT(car_right,make car right);
 
 #endif
 

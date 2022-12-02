@@ -5,8 +5,10 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-10-16     金鑫       the first version
+ * 2022-11-06     Yifang       the first version
  */
+
+
 #ifndef _SRC_CONTROLLER_H_
 #define _SRC_CONTROLLER_H_
 
@@ -14,6 +16,7 @@
 #include <rtdevice.h>
 #include "hal_data.h"
 #include "pwm_config.h"
+#include "pid.h"
 
 #define ENABLE_CAR_MSH 1
 //rt_uint8_t path_num=5;
@@ -58,9 +61,6 @@ struct Controller
 int car_init(void);
 rt_err_t car_start(int argc, char **argv);
 rt_err_t car_stop(void);
-rt_err_t car_left(void);
-rt_err_t car_right(void);
-rt_err_t car_turn(int argc, char **argv);
 
 rt_err_t car_forward(void);
 rt_err_t car_backup(void);

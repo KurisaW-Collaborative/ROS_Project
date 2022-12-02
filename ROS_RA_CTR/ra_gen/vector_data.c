@@ -17,8 +17,11 @@
             [10] = iic_master_txi_isr, /* IIC0 TXI (Transmit data empty) */
             [11] = iic_master_tei_isr, /* IIC0 TEI (Transmit end) */
             [12] = iic_master_eri_isr, /* IIC0 ERI (Transfer error) */
-            [13] = r_icu_isr, /* ICU IRQ1 (External pin interrupt 1) */
-            [14] = r_icu_isr, /* ICU IRQ4 (External pin interrupt 4) */
+            [13] = gpt_counter_overflow_isr, /* GPT3 COUNTER OVERFLOW (Overflow) */
+            [14] = gpt_counter_overflow_isr, /* GPT2 COUNTER OVERFLOW (Overflow) */
+            [15] = r_icu_isr, /* ICU IRQ1 (External pin interrupt 1) */
+            [16] = r_icu_isr, /* ICU IRQ4 (External pin interrupt 4) */
+            [17] = rtc_carry_isr, /* RTC CARRY (Carry interrupt) */
         };
         const bsp_interrupt_event_t g_interrupt_event_link_select[BSP_ICU_VECTOR_MAX_ENTRIES] =
         {
@@ -35,7 +38,10 @@
             [10] = BSP_PRV_IELS_ENUM(EVENT_IIC0_TXI), /* IIC0 TXI (Transmit data empty) */
             [11] = BSP_PRV_IELS_ENUM(EVENT_IIC0_TEI), /* IIC0 TEI (Transmit end) */
             [12] = BSP_PRV_IELS_ENUM(EVENT_IIC0_ERI), /* IIC0 ERI (Transfer error) */
-            [13] = BSP_PRV_IELS_ENUM(EVENT_ICU_IRQ1), /* ICU IRQ1 (External pin interrupt 1) */
-            [14] = BSP_PRV_IELS_ENUM(EVENT_ICU_IRQ4), /* ICU IRQ4 (External pin interrupt 4) */
+            [13] = BSP_PRV_IELS_ENUM(EVENT_GPT3_COUNTER_OVERFLOW), /* GPT3 COUNTER OVERFLOW (Overflow) */
+            [14] = BSP_PRV_IELS_ENUM(EVENT_GPT2_COUNTER_OVERFLOW), /* GPT2 COUNTER OVERFLOW (Overflow) */
+            [15] = BSP_PRV_IELS_ENUM(EVENT_ICU_IRQ1), /* ICU IRQ1 (External pin interrupt 1) */
+            [16] = BSP_PRV_IELS_ENUM(EVENT_ICU_IRQ4), /* ICU IRQ4 (External pin interrupt 4) */
+            [17] = BSP_PRV_IELS_ENUM(EVENT_RTC_CARRY), /* RTC CARRY (Carry interrupt) */
         };
         #endif

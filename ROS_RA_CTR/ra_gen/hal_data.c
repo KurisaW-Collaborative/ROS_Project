@@ -1,6 +1,47 @@
 /* generated HAL source file - do not edit */
 #include "hal_data.h"
 
+rtc_instance_ctrl_t g_rtc0_ctrl;
+const rtc_error_adjustment_cfg_t g_rtc0_err_cfg =
+{
+    .adjustment_mode         = RTC_ERROR_ADJUSTMENT_MODE_AUTOMATIC,
+    .adjustment_period       = RTC_ERROR_ADJUSTMENT_PERIOD_10_SECOND,
+    .adjustment_type         = RTC_ERROR_ADJUSTMENT_NONE,
+    .adjustment_value        = 0,
+};
+const rtc_cfg_t g_rtc0_cfg =
+{
+    .clock_source            = RTC_CLOCK_SOURCE_LOCO,
+    .freq_compare_value_loco = 255,
+    .p_err_cfg               = &g_rtc0_err_cfg,
+    .p_callback              = NULL,
+    .p_context               = NULL,
+    .alarm_ipl               = (BSP_IRQ_DISABLED),
+    .periodic_ipl            = (BSP_IRQ_DISABLED),
+    .carry_ipl               = (12),
+#if defined(VECTOR_NUMBER_RTC_ALARM)
+    .alarm_irq               = VECTOR_NUMBER_RTC_ALARM,
+#else
+    .alarm_irq               = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_RTC_PERIOD)
+    .periodic_irq            = VECTOR_NUMBER_RTC_PERIOD,
+#else
+    .periodic_irq            = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_RTC_CARRY)
+    .carry_irq               = VECTOR_NUMBER_RTC_CARRY,
+#else
+    .carry_irq               = FSP_INVALID_VECTOR,
+#endif
+};
+/* Instance structure to use this module. */
+const rtc_instance_t g_rtc0 =
+{
+    .p_ctrl        = &g_rtc0_ctrl,
+    .p_cfg         = &g_rtc0_cfg,
+    .p_api         = &g_rtc_on_rtc
+};
 icu_instance_ctrl_t g_external_irq4_ctrl;
 const external_irq_cfg_t g_external_irq4_cfg =
 {
@@ -149,7 +190,7 @@ const timer_cfg_t g_timer2_cfg =
     .p_context           = &NULL,
 #endif
     .p_extend            = &g_timer2_extend,
-    .cycle_end_ipl       = (BSP_IRQ_DISABLED),
+    .cycle_end_ipl       = (12),
 #if defined(VECTOR_NUMBER_GPT2_COUNTER_OVERFLOW)
     .cycle_end_irq       = VECTOR_NUMBER_GPT2_COUNTER_OVERFLOW,
 #else
@@ -253,7 +294,7 @@ const timer_cfg_t g_timer3_cfg =
     .p_context           = &NULL,
 #endif
     .p_extend            = &g_timer3_extend,
-    .cycle_end_ipl       = (BSP_IRQ_DISABLED),
+    .cycle_end_ipl       = (12),
 #if defined(VECTOR_NUMBER_GPT3_COUNTER_OVERFLOW)
     .cycle_end_irq       = VECTOR_NUMBER_GPT3_COUNTER_OVERFLOW,
 #else
@@ -353,7 +394,7 @@ const gpt_extended_cfg_t g_timer8_extend =
     .gtioca = { .output_enabled = true,
                 .stop_level     = GPT_PIN_LEVEL_LOW
               },
-    .gtiocb = { .output_enabled = true,
+    .gtiocb = { .output_enabled = false,
                 .stop_level     = GPT_PIN_LEVEL_LOW
               },
     .start_source        = (gpt_source_t) ( GPT_SOURCE_NONE),
@@ -393,7 +434,7 @@ const gpt_extended_cfg_t g_timer8_extend =
     .gtior_setting.gtior_b.gtiob  = (0U << 4U) | (0U << 2U) | (0U << 0U),
     .gtior_setting.gtior_b.obdflt = (uint32_t) GPT_PIN_LEVEL_LOW,
     .gtior_setting.gtior_b.obhld  = 0U,
-    .gtior_setting.gtior_b.obe    = (uint32_t) true,
+    .gtior_setting.gtior_b.obe    = (uint32_t) false,
     .gtior_setting.gtior_b.obdf   = (uint32_t) GPT_GTIOC_DISABLE_PROHIBITED,
     .gtior_setting.gtior_b.nfben  = ((uint32_t) GPT_CAPTURE_FILTER_NONE & 1U),
     .gtior_setting.gtior_b.nfcsb  = ((uint32_t) GPT_CAPTURE_FILTER_NONE >> 1U),
@@ -404,7 +445,7 @@ const gpt_extended_cfg_t g_timer8_extend =
 const timer_cfg_t g_timer8_cfg =
 {
     .mode                = TIMER_MODE_PWM,
-    /* Actual period: 4e-8 seconds. Actual duty: 50%. */ .period_counts = (uint32_t) 0x2, .duty_cycle_counts = 0x1, .source_div = (timer_source_div_t)0,
+    /* Actual period: 0.00001524 seconds. Actual duty: 100%. */ .period_counts = (uint32_t) 0x2fa, .duty_cycle_counts = 0x2fa, .source_div = (timer_source_div_t)0,
     .channel             = 8,
     .p_callback          = NULL,
     /** If NULL then do not add & */
@@ -508,7 +549,7 @@ const gpt_extended_cfg_t g_timer7_extend =
 const timer_cfg_t g_timer7_cfg =
 {
     .mode                = TIMER_MODE_PWM,
-    /* Actual period: 4e-8 seconds. Actual duty: 50%. */ .period_counts = (uint32_t) 0x2, .duty_cycle_counts = 0x1, .source_div = (timer_source_div_t)0,
+    /* Actual period: 0.00001524 seconds. Actual duty: 100%. */ .period_counts = (uint32_t) 0x2fa, .duty_cycle_counts = 0x2fa, .source_div = (timer_source_div_t)0,
     .channel             = 7,
     .p_callback          = NULL,
     /** If NULL then do not add & */

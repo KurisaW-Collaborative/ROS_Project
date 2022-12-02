@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-10-20     ASUS       the first version
+ * 2022-11-06     Yifang       the first version
  */
 #ifndef SRC_HC_06_H_
 #define SRC_HC_06_H_
@@ -17,6 +17,7 @@
 #include "controller.h"
 #include "pwm_config.h"
 #include "src/encoder_cb.h"
+#include "encoder_cb.h"
 
 extern rt_err_t car_forward(void);
 extern rt_err_t car_backup(void);

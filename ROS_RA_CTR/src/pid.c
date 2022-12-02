@@ -1,108 +1,147 @@
-///*
-// * Copyright (c) 2006-2021, RT-Thread Development Team
-// *
-// * SPDX-License-Identifier: Apache-2.0
-// *
-// * Change Logs:
-// * Date           Author       Notes
-// * 2022-11-05     Yifang       the first version
-// */
-//#include "pid.h"
-//
-//void pid_init(PidObj* obj,
-//              float kp, float ki, float kd,
-//              float kp_min, float kp_max,
-//              float ki_min, float ki_max,
-//              float kd_min, float kd_max)
-//{
-//    obj->delta_u_k  = 0.0f;
-//    obj->err_k2     = 0.0f;
-//    obj->err_k1     = 0.0f;
-//    obj->err_k      = 0.0f;
-//    obj->u_k1       = 0.0f;
-//    obj->u_k        = 0.0f;
-//    obj->kp         = kp;
-//    obj->ki         = ki;
-//    obj->kd         = kd;
-//    obj->kp_min     = kp_min;
-//    obj->kp_max     = kp_max;
-//    obj->ki_min     = ki_min;
-//    obj->ki_max     = ki_max;
-//    obj->kd_min     = kd_min;
-//    obj->kd_max     = kd_max;
-//}
-//
-//void pid_set_param(PidObj *obj, float kp, float ki, float kd)
-//{
-//    obj->kp = (obj->kp_min == 0 && obj->kp_max == 0) ? kp : \
-//               ((kp > obj->kp_max) ? obj->kp_max : \
-//               ((kp < obj->kp_min) ? obj->kp_min : kp));
-//
-//    obj->ki = (obj->ki_min == 0 && obj->ki_max == 0) ? ki : \
-//               ((ki > obj->ki_max) ? obj->ki_max : \
-//               ((ki < obj->ki_min) ? obj->ki_min : ki));
-//
-//    obj->kd = (obj->kd_min == 0 && obj->kd_max == 0) ? kd : \
-//               ((kd > obj->kd_max) ? obj->kd_max : \
-//               ((kd < obj->kd_min) ? obj->kd_min : kd));
-//}
-//
-//void pid_get_param(PidObj *obj, float *kp, float *ki, float *kd)
-//{
-//    *kp = obj->kp;
-//    *ki = obj->ki;
-//    *kd = obj->kd;
-//}
-//
-//void pid_set_param_limit(PidObj *obj, PidParam param, float min, float max)
-//{
-//    switch (param)
-//    {
-//    case KP:
-//        obj->kp_min = min;
-//        obj->kp_max = max;
-//        break;
-//    case KI:
-//        obj->ki_min = min;
-//        obj->ki_max = max;
-//        break;
-//    case KD:
-//        obj->kd_min = min;
-//        obj->kd_max = max;
-//        break;
-//    }
-//}
-//
-//void pid_get_param_limit(PidObj *obj, PidParam param, float *min, float *max)
-//{
-//    switch (param)
-//    {
-//    case KP:
-//        *min = obj->kp_min;
-//        *max = obj->kp_max;
-//        break;
-//    case KI:
-//        *min = obj->ki_min;
-//        *max = obj->ki_max;
-//        break;
-//    case KD:
-//        *min = obj->kd_min;
-//        *max = obj->kd_max;
-//        break;
-//    }
-//}
-//
-//float pid_control(PidObj *obj, float err)
-//{
-//    obj->err_k2 = obj->err_k1;
-//    obj->err_k1 = obj->err_k;
-//    obj->err_k = err;
-//    obj->u_k1 = obj->u_k;
-//
-//    obj->delta_u_k = obj->kp * (obj->err_k - obj->err_k1) +
-//                     obj->ki * obj->err_k +
-//                     obj->kd * (obj->err_k - 2 * obj->err_k1 + obj->err_k2);
-//
-//    obj->u_k = obj->u_k1 + obj->delta_u_k;
-//    return obj->u_k;
-//}
+/*
+ * Copyright (c) 2006-2021, RT-Thread Development Team
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Change Logs:
+ * Date           Author       Notes
+ * 2022-11-29     Yifang       the first version
+ */
+#include "pid.h"
+#include "rthw.h"
+
+#define speed  800000
+float middle = 0.05;
+
+extern float span;
+
+rt_int32_t pwm_l,pwm_r;
+float kp = 800000.0;
+float ki = 0.00;
+float kd = 200.0;
+
+float dia=0;
+
+extern struct rt_device_pwm * pwm1 ;
+extern struct rt_device_pwm * pwm2 ;
+
+extern rt_uint32_t ain1_pin,ain2_pin,bin1_pin,bin2_pin;
+
+rt_thread_t pid_thread = RT_NULL;
+
+rt_mutex_t number_protect;
+
+void pid_compute(rt_uint32_t val);
+
+void pid_thread_entry(void *parameter)
+{
+    while(1)
+    {
+        float num=0;
+
+        rt_mutex_take(number_protect, RT_WAITING_FOREVER);
+        num = span_Calc();
+        rt_mutex_release(number_protect);
+
+        pid_compute(num);
+
+        rt_thread_mdelay(5);
+    }
+}
+
+int pid_init(void)
+{
+    number_protect = rt_mutex_create("number_protect", RT_IPC_FLAG_FIFO);//对速度差值进行互斥保护
+
+    pid_thread = rt_thread_create("pid_thread", pid_thread_entry, RT_NULL, 2048, 9, 300);
+    if(pid_thread)
+    {
+        rt_thread_startup(pid_thread);
+    }
+    else {
+        rt_kprintf("create pid_thread error\r\n");
+        return -RT_ERROR;
+    }
+    return RT_EOK;
+}
+
+void pwm_limit(rt_int32_t * pwm1,rt_int32_t * pwm2)
+{
+    if(*pwm1>1000000) *pwm1=1000000;
+    else if(*pwm1<-1000) *pwm1=-1000000;
+
+    if(*pwm2>1000000) *pwm2=1000000;
+    else if(*pwm2<-1000) *pwm2=-1000000;
+}
+
+void pwm_abs(rt_int32_t pwm_1,rt_int32_t pwm_2)
+{
+    if(pwm_1<0)
+    {
+        rt_pin_write(ain2_pin, PIN_HIGH);
+        rt_pin_write(ain1_pin, PIN_LOW);
+        //rt_kprintf("l : h\r\n");
+        pwm_1 = -pwm_1;
+    }
+    else if(pwm_1>=0)
+    {
+        rt_pin_write(ain1_pin, PIN_LOW);
+        rt_pin_write(ain2_pin, PIN_HIGH);
+        //rt_kprintf("l : f\r\n");
+    }
+    if(pwm_2<0)
+    {
+        rt_pin_write(bin2_pin, PIN_HIGH);
+        rt_pin_write(bin1_pin, PIN_LOW);
+        pwm_2 = -pwm_2;
+        //rt_kprintf("r : h\r\n");
+    }
+    else if(pwm_2>=0)
+    {
+        rt_pin_write(bin1_pin, PIN_LOW);
+        rt_pin_write(bin2_pin, PIN_HIGH);
+        //rt_kprintf("r : f\r\n");
+    }
+    pwm_limit(&pwm_1, &pwm_2);
+    //rt_kprintf("%d %d\r\n",pwm_1,pwm_2);
+    pwm_set_pulse(pwm1, pwm_1);
+    pwm_set_pulse(pwm2, pwm_2);
+}
+
+
+void pid_compute(rt_uint32_t val)
+{
+    static float error,ierror,derror,errorlast;
+
+    error = middle - val;
+    ierror = ierror + error;
+    derror = error - errorlast;
+    errorlast = error;
+    if(ierror > 3000)
+        ierror = 3000;
+    else if(ierror < -3000)
+        ierror = -3000;
+    dia = kp*error/100 + ki*ierror + kd*derror/10;
+    //dia = dia * 5;
+
+    pwm_l = speed + dia;
+    pwm_r = speed - dia;
+
+    pwm_abs(pwm_l, pwm_r);
+}
+
+int pid_set(int argc,char **argv)
+{
+    if(argc<4)
+    {
+        rt_kprintf("the formate is <kp> <ki> <kd>\r\n");
+    }
+    else {
+        kp = atof(argv[1]);
+        ki = atof(argv[2]);
+        kd = atof(argv[3]);
+        rt_kprintf("SET OK ! KP:%f KI:%f KD:%f",kp,ki,kd);
+    }
+    return RT_EOK;
+}
+MSH_CMD_EXPORT(pid_set,pid parameter set);

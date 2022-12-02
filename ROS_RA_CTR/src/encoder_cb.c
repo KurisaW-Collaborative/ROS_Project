@@ -1,4 +1,5 @@
 /*
+#include <src/pid_ct_ICMTL.h>
  * Copyright (c) 2006-2021, RT-Thread Development Team
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -10,163 +11,191 @@
 #include "encoder_cb.h"
 #include <sys/time.h>
 #include <time.h>
+#include <stdio.h>
 
 #define DBG_LVL               DBG_LOG
 #include <rtdbg.h>
 
-bsp_io_level_t p_port_value_port_104;   //pinÉè±¸¾ä±ú
-bsp_io_level_t p_port_value_port_111;   //pinÉè±¸¾ä±ú
-timer_info_t info;                      //¶¨Ê±Æ÷¾ä±ú
 
-static rt_bool_t time_flag = 0;                //ÉÏÉıÑØ±êÖ¾Î»
-static uint32_t g_capture_num = 0;               //Á½¸öÉÏÉıÑØÖ®¼äµÄÖÜÆÚ
-static uint32_t g_capture_num0 = 0;              //µÚ0¸öÉÏÉıÑØ¶¨Ê±Æ÷¼ÆÊıÖµ
-static uint32_t g_capture_num1 = 0;              //µÚ1¸öÉÏÉıÑØ¶¨Ê±Æ÷¼ÆÊıÖµ
-static uint32_t g_capture_frequency = 0;         //ÆµÂÊ
-static uint32_t g_capture_duty_cycle = 0;        //Õ¼¿Õ±È
-static uint32_t g_capture_duty_cycle_num = 0;    //+Õ¼¿Õ±ÈÖÜÆÚ
-static uint32_t g_period_num = 0;                //Âö³åÖÜÆÚ´ÎÊı
-static uint32_t g_capture_duty_cycle_num0 =0;//ÏÂ½µÑØ¶¨Ê±Æ÷¼ÆÊıÖµ
+float span = 0;//å·¦å³è½®é€Ÿåº¦å·®å€¼
 
-static uint32_t g2_capture_num = 0;               //Á½¸öÉÏÉıÑØÖ®¼äµÄÖÜÆÚ
-static uint32_t g2_capture_num0 = 0;              //µÚ0¸öÉÏÉıÑØ¶¨Ê±Æ÷¼ÆÊıÖµ
-static uint32_t g2_capture_num1 = 0;              //µÚ1¸öÉÏÉıÑØ¶¨Ê±Æ÷¼ÆÊıÖµ
-static uint32_t g2_capture_frequency = 0;         //ÆµÂÊ
-static uint32_t g2_capture_duty_cycle = 0;        //Õ¼¿Õ±È
-static uint32_t g2_capture_duty_cycle_num = 0;    //+Õ¼¿Õ±ÈÖÜÆÚ
-static uint32_t g2_period_num = 0;                //Âö³åÖÜÆÚ´ÎÊı
-static uint32_t g2_capture_duty_cycle_num0 =0;//ÏÂ½µÑØ¶¨Ê±Æ÷¼ÆÊıÖµ
+bsp_io_level_t p_port_value_port_104;   //pinè®¾å¤‡å¥æŸ„
+bsp_io_level_t p_port_value_port_111;   //pinè®¾å¤‡å¥æŸ„
+timer_info_t info;                      //å®šæ—¶å™¨å¥æŸ„
 
-static int count1 = 0;
-static uint32_t g_capture_num1_total = 0;       //ÕûÊıÊı×éÓÃÓÚ´æ´¢13¸öÉÏÉıÑØÖÜÆÚ×ÜµÄ¼ÆÊıÖµ
-static uint32_t g_capture_duty_cycle_num1_total = 0;     //ÓÃÓÚ´æ´¢13¸öÏÂ½µÑØÖÜÆÚ×Ü¼ÆÊıÖµ
+static rt_bool_t time_flag = 0;                //ä¸Šå‡æ²¿æ ‡å¿—ä½
+uint32_t g_capture_num = 0;               //ä¸¤ä¸ªä¸Šå‡æ²¿ä¹‹é—´çš„å‘¨æœŸ
+static uint32_t g_capture_num0 = 0;              //ç¬¬0ä¸ªä¸Šå‡æ²¿å®šæ—¶å™¨è®¡æ•°å€¼
+static uint32_t g_capture_num1 = 0;              //ç¬¬1ä¸ªä¸Šå‡æ²¿å®šæ—¶å™¨è®¡æ•°å€¼
+uint32_t g_capture_frequency = 0;         //é¢‘ç‡
+uint32_t g_capture_duty_cycle = 0;        //å ç©ºæ¯”1
+uint32_t g_capture_duty_cycle_num = 0;    //+å ç©ºæ¯”å‘¨æœŸ
+static uint32_t g_capture_duty_cycle_num0 =0;//ä¸‹é™æ²¿å®šæ—¶å™¨è®¡æ•°å€¼
 
-static int count2 = 0;
-static uint32_t g_capture_num2_total = 0;       //ÕûÊıÊı×éÓÃÓÚ´æ´¢13¸öÉÏÉıÑØÖÜÆÚ×ÜµÄ¼ÆÊıÖµ
-static uint32_t g_capture_duty_cycle_num2_total = 0;     //ÓÃÓÚ´æ´¢13¸öÏÂ½µÑØÖÜÆÚ×Ü¼ÆÊıÖµ
+uint32_t g2_capture_num = 0;               //ä¸¤ä¸ªä¸Šå‡æ²¿ä¹‹é—´çš„å‘¨æœŸ
+static uint32_t g2_capture_num0 = 0;              //ç¬¬0ä¸ªä¸Šå‡æ²¿å®šæ—¶å™¨è®¡æ•°å€¼
+static uint32_t g2_capture_num1 = 0;              //ç¬¬1ä¸ªä¸Šå‡æ²¿å®šæ—¶å™¨è®¡æ•°å€¼
+uint32_t g2_capture_frequency = 0;         //é¢‘ç‡
+uint32_t g2_capture_duty_cycle = 0;        //å ç©ºæ¯”2
+uint32_t g2_capture_duty_cycle_num = 0;    //+å ç©ºæ¯”å‘¨æœŸ
+static uint32_t g2_capture_duty_cycle_num0 =0;//ä¸‹é™æ²¿å®šæ—¶å™¨è®¡æ•°å€¼
 
+int count1 = 0;
+uint32_t g_capture_num1_total = 0;       //ç”¨äºå­˜å‚¨ä¸€æ¬¡å¼•è„šè§¦å‘è®¡æ•°æ€»å€¼
+float capture_num1_total = 0;
+float speed_average1_time = 0;
+float rotate_speed1 = 0;
+float rad_speed1 = 0;       //è§’é€Ÿåº¦
+float line_speed1 = 0;      //çº¿é€Ÿåº¦
 
+int count2 = 0;
+uint32_t g_capture_num2_total = 0;       //ç”¨äºå­˜å‚¨ä¸€æ¬¡å¼•è„šè§¦å‘è®¡æ•°æ€»å€¼
+float capture_num2_total = 0;
+float speed_average2_time = 0;
+float rotate_speed2 = 0;
+float rad_speed2 = 0;
+float line_speed2 = 0;      //çº¿é€Ÿåº¦
+
+time_t now;
 
 /* Callback function */
 void exit1_callback(external_irq_callback_args_t *p_args)
 {
-    time_t now;
+//    time_t now;
 
-    /*¶ÁÈ¡¶Ë¿ÚµçÆ½×´Ì¬£¬Èç¹ûÊÇµÍµçÆ½Ôò·¢ÉúµÄÊÇÏÂ½µÑØ£¬¸ßµçÆ½ÔòÊÇÉÏÉıÑØ*/
-    R_IOPORT_PinRead(&g_ioport_ctrl, BSP_IO_PORT_01_PIN_04, &p_port_value_port_104);        //»ñÈ¡±àÂëÆ÷Òı½ÅµçÆ½×²Ëû×´Ì¬
+    /*è¯»å–ç«¯å£ç”µå¹³çŠ¶æ€ï¼Œå¦‚æœæ˜¯ä½ç”µå¹³åˆ™å‘ç”Ÿçš„æ˜¯ä¸‹é™æ²¿ï¼Œé«˜ç”µå¹³åˆ™æ˜¯ä¸Šå‡æ²¿*/
+    R_IOPORT_PinRead(&g_ioport_ctrl, BSP_IO_PORT_01_PIN_04, &p_port_value_port_104);        //è·å–ç¼–ç å™¨å¼•è„šç”µå¹³çŠ¶æ€
 
-    /* »ñÈ¡¶¨Ê±Æ÷²ÎÊıÖµ */
+    /* å®šæ—¶å™¨3ä½¿èƒ½ï¼Œç”¨äºæ•è·ä¸­æ–­å¼•è„šè®¡æ•° */
+    (void) R_GPT_Enable(&g_timer3_ctrl);
+
+    /* è·å–å®šæ—¶å™¨å‚æ•°å€¼ */
     timer_info_t info;
     (void) R_GPT_InfoGet(&g_timer3_ctrl, &info);
 
-    uint32_t frequency1 = info.clock_frequency;//¶¨Ê±Æ÷Ê±ÖÓÆµÂÊ£º50MHz
-    uint32_t current_period_counts1 = info.period_counts;//¶¨Ê±Æ÷¼ÆÊıÖµ
+    uint32_t frequency1 = info.clock_frequency;//å®šæ—¶å™¨æ—¶é’Ÿé¢‘ç‡ï¼šå–10MHZ
+    uint32_t current_period_counts1 = info.period_counts;//å®šæ—¶å™¨è®¡æ•°å€¼
 
-    /* »ñÈ¡µ±Ç°¼ÆÊıÖµ */
+    /* è·å–å½“å‰è®¡æ•°å€¼ */
     timer_status_t status;
     (void) R_GPT_StatusGet(&g_timer3_ctrl, &status);
 
-    if(p_port_value_port_104==BSP_IO_LEVEL_HIGH)//ÉÏÉıÑØ
+    if(p_port_value_port_104==BSP_IO_LEVEL_HIGH)//ä¸Šå‡æ²¿
        {
            if(time_flag == 0)
            {
-               time_flag = 1;     //µ±Òı½Å×´Ì¬ÎªÉÏÉıÑØÊ±£¬Ê×ÏÈÒª¶Ô¼ÆÊıÆ÷½øĞĞÇåÁã²Ù×÷£¨¶ÔÕıÕ¼¿Õ±ÈµÄ¼ÆÊıÇåÁã£©
-               g_capture_num0 = status.counter;   //¶Ô¼ÆÊıÆ÷½øĞĞ¶ÁÈ¡
-               g_capture_duty_cycle_num = 0;    //¶ÔÕıÕ¼¿Õ±ÈÖÜÆÚµÄÇåÁã²Ù×÷
+               time_flag = 1;     //å½“å¼•è„šçŠ¶æ€ä¸ºä¸Šå‡æ²¿æ—¶ï¼Œé¦–å…ˆè¦å¯¹è®¡æ•°å™¨è¿›è¡Œæ¸…é›¶æ“ä½œï¼ˆå¯¹æ­£å ç©ºæ¯”çš„è®¡æ•°æ¸…é›¶ï¼‰
+               g_capture_num0 = status.counter;   //å¯¹è®¡æ•°å™¨è¿›è¡Œè¯»å–
+
+               /* è®¡ç®—ç”µæœºè½¬åŠ¨1åœˆæ‰€ç”¨æ€»è®¡æ•°å€¼ */
+               g_capture_num1_total = g_capture_num; //ç»Ÿè®¡æ¯ä¸€æ¬¡çš„å¼•è„šè§¦å‘æ€»è®¡æ•°å€¼
+
+               if(count1 < (13 * 50)) //è®¡ç®—100ä¸ªè„‰å†²å‘¨æœŸ
+               {
+                   count1++;
+                   capture_num1_total += g_capture_num1_total;
+               }
+               else
+               {
+                   capture_num1_total = capture_num1_total / (13 * 50);
+
+                   /* è®¡ç®—å°è½¦è½¬é€Ÿ */
+                   speed_average1_time = capture_num1_total / frequency1;//è½¬åŠ¨ä¸€åœˆç”µæœºæ‰€èŠ±è´¹çš„æ—¶é—´
+                   rotate_speed1 =  1 / speed_average1_time / 20;   //è½¬é€Ÿï¼šr/sä¸€ç§’å¤šå°‘åœˆ
+                   rad_speed1 = rotate_speed1 * 6.2832; //è§’é€Ÿåº¦ï¼šè½¬é€Ÿ*Î 
+                   line_speed1 = rad_speed1 * 2.5;      //çº¿é€Ÿåº¦ï¼šè§’é€Ÿåº¦*åŠå¾„
+
+                   count1 = 0;
+                   capture_num1_total = 0;
+               }
            }
            else
            {
                time_flag = 0;
                g_capture_num1 = status.counter;
 
-               if(g_capture_num1 >= g_capture_num0)       //´Ë´¦ĞèÒª¼ÓÈëÅĞ¶ÏÊÇ·ñ´Ë´¦µÄÉÏÉıÑØÏà½ÏÓÚÉÏÒ»´ÎµÄÉÏÉıÑØÊÇ·ñ´¦ÓÚÍ¬Ò»ÖÜÆÚÄÚ£¨·ÀÖ¹¼ÆÊıÖµÎª¸ºÖµ£©
+               if(g_capture_num1 >= g_capture_num0)       //æ­¤å¤„éœ€è¦åŠ å…¥åˆ¤æ–­æ˜¯å¦æ­¤å¤„çš„ä¸Šå‡æ²¿ç›¸è¾ƒäºä¸Šä¸€æ¬¡çš„ä¸Šå‡æ²¿æ˜¯å¦å¤„äºåŒä¸€å‘¨æœŸå†…ï¼ˆé˜²æ­¢è®¡æ•°å€¼ä¸ºè´Ÿå€¼ï¼‰
                {
                    g_capture_num = g_capture_num1 - g_capture_num0;
-//                   LOG_I("g_capture1_num is %d\n",g_capture_num);
                }
                else
                {
-                   g_capture_num = current_period_counts1 - g_capture_num0 + g_capture_num1;         //Èç¹û²»ÔÚÍ¬Ò»ÖÜÆÚÄÚ£¬²¢ÇÒµ±Ç°Öµ¼ÆÊıÖµĞ¡ÓÚÉÏÒ»ÖÜÆÚµÄ¼ÆÊıÖµ£¬½øĞĞĞèÒª¼ÆËã£¨0xffffffff-ÉÏÒ»´Î¼ÆÊıÖµ+µ±Ç°¼ÆÊıÖµ£©
-                   g_capture_frequency = frequency1 / g_capture_num;       //¼ÆËãÆµÂÊ£ºÊ±ÖÓÖÜÆÚ / Âö³åÊı£¨Ò²¾ÍÊÇÔÚÉè¶¨µÄÕâ¸öÊ±ÖÓÖÜÆÚÄÚµç»ú×ª¶¯ÁË¶àÉÙÈ¦£© s/hz
-//                   LOG_I("g_capture1_num is %d\n",g_capture_num);  //µ¥¸öÂö³åÖÜÆÚµÄ¼ÆÊıÖµ
-//                   LOG_I("g_capture1_frequency is %d\n",g_capture_frequency);   //µ¥¸öÊ±ÖÓÖÜÆÚÄÚµç»ú×ª¶¯µÄÈ¦Êı
+                   g_capture_num = current_period_counts1 - g_capture_num0 + g_capture_num1;         //å¦‚æœä¸åœ¨åŒä¸€å‘¨æœŸå†…ï¼Œå¹¶ä¸”å½“å‰å€¼è®¡æ•°å€¼å°äºä¸Šä¸€å‘¨æœŸçš„è®¡æ•°å€¼ï¼Œè¿›è¡Œéœ€è¦è®¡ç®—ï¼ˆ0xffffffff-ä¸Šä¸€æ¬¡è®¡æ•°å€¼+å½“å‰è®¡æ•°å€¼ï¼‰(å¯¹æ€»çš„ä¸€ä¸ªå‘¨æœŸè¿›è¡Œè¿ç®—)
                }
+
+               g_capture_frequency = frequency1 / g_capture_num;       //è®¡ç®—å¼•è„šè§¦å‘é¢‘ç‡åœ¨æ—¶é’Ÿé¢‘ç‡
            }
        }
 
     else
        {
-           if(time_flag==1)     //  ´ËÊ±ÉÏÉıÑØ±êÖ¾Î»ÒÑ¾­´Ó0±ä³É1£¬¶Ôµ±Ç°¼ÆÊıÖµ½øĞĞ¶ÁÈ¡²¢½øĞĞÔËËã
+//         æ­¤å¤„å¯¹Bç›¸è¿›è¡Œè„‰å†²ç»Ÿè®¡ï¼Œç»Ÿè®¡å‡ºå•ä¸ªå‘¨æœŸçš„è„‰å†²å€¼
+           if(time_flag==1)     //  æ­¤æ—¶ä¸Šå‡æ²¿æ ‡å¿—ä½å·²ç»ä»0å˜æˆ1ï¼Œå¯¹å½“å‰è®¡æ•°å€¼è¿›è¡Œè¯»å–å¹¶è¿›è¡Œè¿ç®—
            {
                g_capture_duty_cycle_num0 = status.counter;
                if(g_capture_duty_cycle_num0 >= g_capture_num0)
                {
                    g_capture_duty_cycle_num = g_capture_duty_cycle_num0 - g_capture_num0;
-//                   LOG_I("g_capture1_duty_cycle_num is %d\n",g_capture_duty_cycle_num);
                }
                else
                {
-                   g_capture_duty_cycle_num = current_period_counts1 - g_capture_num0 + g_capture_duty_cycle_num0; //ÏÂ½µÑØµÄµ¥ÖÜÆÚ¼ÆÊıÖµ
-                   g_capture_duty_cycle = (g_capture_duty_cycle_num*100 / (float)g_capture_num);//Õ¼¿Õ±È
-//                   LOG_I("g_capture1_duty_cycle_num is %d\n",g_capture_duty_cycle_num);
-//                   LOG_I("g_capture1_duty_cycle is %d\n",g_capture_duty_cycle);
+                   g_capture_duty_cycle_num = current_period_counts1 - g_capture_num0 + g_capture_duty_cycle_num0; //ä¸‹é™æ²¿çš„å•å‘¨æœŸè®¡æ•°å€¼
                }
+               g_capture_duty_cycle = (g_capture_duty_cycle_num * 100 / (float)g_capture_num);//ä½ç”µå¹³è§¦å‘é¢‘ç‡
            }
        }
-
-    /* ¼ÆÊıÆ÷½ÃÕı´¦Àí */
-    g_capture_num1_total  += g_capture_num;     //½«Ã¿¸öÖÜÆÚµÄÉÏÉıÑØ¼ÆÊıÖµÒÀ´Î¸³Öµ¸ø¸Ã±äÁ¿
-    g_capture_duty_cycle_num1_total += g_capture_duty_cycle_num;       //½«Ã¿¸öÖÜÆÚµÄÏÂ½µÑØ¼ÆÊıÖµÒÀ´Î¸³Öµ¸ø¸Ã±äÁ¿
-
-
-    if(count1 == 0)
-    {
-        LOG_I("The first g_capture1_total_num is : %d\n",g_capture_num1_total);
-        LOG_I("The first g_capture_duty_cycle_num1_total is : %d\n",g_capture_duty_cycle_num1_total);
-        now = time(RT_NULL);
-        LOG_I("The first g_capture1_time is : %s\n", ctime(&now));
-    }
-    else if(count1 > 13)
-    {
-        count1 = 0;
-
-        LOG_I("The result g_capture1_total_num is : %d\n",g_capture_num1_total / 13);
-        LOG_I("The result g_capture_duty_cycle_num1_total is : %d\n",g_capture_duty_cycle_num1_total / 13);
-        now = time(RT_NULL);
-        LOG_I("The result g_capture1_time is : %s\n", ctime(&now));
-    }
-    else
-    {
-        count1++;     //ÖÜÆÚÃ¿´¥·¢Ò»´Î¾Í×ÔÔöÒ»´Î£¬µ½13ÇåÁãÖØĞÂÀÛ¼Æ
-    }
 }
 
 /* Callback function */
 void exit4_callback(external_irq_callback_args_t *p_args)
 {
-    time_t now;
+//    time_t now;
 
-    /*¶ÁÈ¡¶Ë¿ÚµçÆ½×´Ì¬£¬Èç¹ûÊÇµÍµçÆ½Ôò·¢ÉúµÄÊÇÏÂ½µÑØ£¬¸ßµçÆ½ÔòÊÇÉÏÉıÑØ*/
-    R_IOPORT_PinRead(&g_ioport_ctrl, BSP_IO_PORT_01_PIN_11, &p_port_value_port_111);        //»ñÈ¡±àÂëÆ÷Òı½ÅµçÆ½×´Ì¬
+    /*è¯»å–ç«¯å£ç”µå¹³çŠ¶æ€ï¼Œå¦‚æœæ˜¯ä½ç”µå¹³åˆ™å‘ç”Ÿçš„æ˜¯ä¸‹é™æ²¿ï¼Œé«˜ç”µå¹³åˆ™æ˜¯ä¸Šå‡æ²¿*/
+    R_IOPORT_PinRead(&g_ioport_ctrl, BSP_IO_PORT_01_PIN_11, &p_port_value_port_111);        //è·å–ç¼–ç å™¨å¼•è„šç”µå¹³çŠ¶æ€
 
-    /* »ñÈ¡¶¨Ê±Æ÷²ÎÊıÖµ */
+    /* å¯åŠ¨å®šæ—¶å™¨2 */
+    (void) R_GPT_Enable(&g_timer2_ctrl);
+
+    /* è·å–å®šæ—¶å™¨å‚æ•°å€¼ */
     timer_info_t info;
     (void) R_GPT_InfoGet(&g_timer2_ctrl, &info);
 
-    uint32_t frequency2 = info.clock_frequency;//¶¨Ê±Æ÷Ê±ÖÓÆµÂÊ
-    uint32_t current_period_counts2 = info.period_counts;//¶¨Ê±Æ÷ÖÜÆÚ
+    uint32_t frequency2 = info.clock_frequency;//å®šæ—¶å™¨æ—¶é’Ÿé¢‘ç‡:å–10MHZ
+    uint32_t current_period_counts2 = info.period_counts;//å®šæ—¶å™¨å‘¨æœŸ
 
-    /* »ñÈ¡µ±Ç°¼ÆÊıÖµ */
+    /* è·å–å½“å‰è®¡æ•°å€¼ */
     timer_status_t status;
     (void) R_GPT_StatusGet(&g_timer2_ctrl, &status);
 
-    if(p_port_value_port_111 == BSP_IO_LEVEL_HIGH)//ÉÏÉıÑØ
+    if(p_port_value_port_111 == BSP_IO_LEVEL_HIGH)//ä¸Šå‡æ²¿
        {
            if(time_flag == 0)
            {
                time_flag = 1;
                g2_capture_num0 = status.counter;
-               g2_capture_duty_cycle_num = 0;
+
+               /* è®¡ç®—ç”µæœºè½¬åŠ¨åŠåœˆæ‰€ç”¨æ€»è®¡æ•°å€¼ */
+               g_capture_num2_total = g2_capture_num ; //ç»Ÿè®¡æ¯ä¸€æ¬¡çš„å¼•è„šè§¦å‘æ€»è®¡æ•°å€¼
+
+               if(count2 < (13 * 50))
+               {
+                   count2++;
+                   capture_num2_total += g_capture_num2_total;
+               }
+               else
+               {
+                   capture_num2_total = capture_num2_total / (13 * 50);
+
+                   /* è®¡ç®—å°è½¦è½¬é€Ÿ */
+                   speed_average2_time = capture_num2_total / frequency2;//è½¬åŠ¨ä¸€åœˆç”µæœºæ‰€èŠ±è´¹çš„æ—¶é—´
+                   rotate_speed2 =  1 / speed_average2_time / 20;   //è½¬é€Ÿï¼šr/sä¸€ç§’å¤šå°‘åœˆ
+                   rad_speed2 = rotate_speed2 * 6.2832; //è§’é€Ÿåº¦ï¼šè½¬é€Ÿ*Î 
+                   line_speed2 = rad_speed2 * 2.5;      //çº¿é€Ÿåº¦ï¼šè§’é€Ÿåº¦*åŠå¾„
+
+                   count2 = 0;
+                   capture_num2_total = 0;
+               }
            }
            else
            {
@@ -175,15 +204,13 @@ void exit4_callback(external_irq_callback_args_t *p_args)
                if(g2_capture_num1 >= g2_capture_num0)
                {
                    g2_capture_num = g2_capture_num1 - g2_capture_num0;
-//                   LOG_I("g_capture2_num is %d\n",g2_capture_num);
                }
                else
                {
-                   g2_capture_num = current_period_counts2 + g2_capture_num1 - g_capture_num0;
-                   g2_capture_frequency = frequency2 / g2_capture_num;//¼ÆËãµ¥¸öÊ±ÖÓÖÜÆÚÄÚĞ¡³µµÄÂö³åÖÜÆÚÊı
-//                   LOG_I("g_capture2_num is %d%\n",g2_capture_num);
-//                   LOG_I("g_capture2_frequency is %d\n",g2_capture_frequency);
+                   g2_capture_num = current_period_counts2 + g2_capture_num1 - g2_capture_num0;
                }
+
+               g2_capture_frequency = frequency2 / g2_capture_num;//è®¡ç®—å•ä¸ªè®¡æ•°å‘¨æœŸå†…å°è½¦çš„é«˜ç”µå¹³è§¦å‘é¢‘ç‡
            }
        }
     else
@@ -194,42 +221,28 @@ void exit4_callback(external_irq_callback_args_t *p_args)
                if(g2_capture_duty_cycle_num0 >= g2_capture_num0)
                {
                    g2_capture_duty_cycle_num = g2_capture_duty_cycle_num0 - g2_capture_num0;
-//                   LOG_I("g2_capture2_duty_cycle_num is %d\n",g2_capture_duty_cycle_num);
                }
                else
                {
-                   g2_capture_duty_cycle_num = current_period_counts2 - g2_capture_num0 + g_capture_duty_cycle_num0;
-                   g2_capture_duty_cycle = (g2_capture_duty_cycle_num*100 / (float)g_capture_num);//Õ¼¿Õ±È
-//                   LOG_I("g_capture2_duty_cycle_num is %d%\n",g_capture_duty_cycle_num);
-//                   LOG_I("g_capture2_duty_cycle is %d\n",g_capture_duty_cycle);
+                   g2_capture_duty_cycle_num = current_period_counts2 - g2_capture_num0 + g2_capture_duty_cycle_num0;
                }
+
+               g2_capture_duty_cycle = (g2_capture_duty_cycle_num*100 / (float)g2_capture_num);//å ç©ºæ¯”
            }
        }
+}
 
-    /* ¼ÆÊıÆ÷½ÃÕı´¦Àí */
-    g_capture_num2_total  += g2_capture_num;     //½«Ã¿¸öÖÜÆÚµÄÉÏÉıÑØ¼ÆÊıÖµÒÀ´Î¸³Öµ¸ø¸Ã±äÁ¿
-    g_capture_duty_cycle_num2_total += g2_capture_duty_cycle_num;       //½«Ã¿¸öÖÜÆÚµÄÏÂ½µÑØ¼ÆÊıÖµÒÀ´Î¸³Öµ¸ø¸Ã±äÁ¿
-
-
-    if(count2 == 0)
+/* åé¦ˆå·¦å³è½®é€Ÿåº¦å·®å€¼ */
+float span_Calc(void)
+{
+    if(rotate_speed2 > rotate_speed1)
     {
-        LOG_I("The first g_capture_num2_total is : %d\n",g_capture_num2_total);
-        LOG_I("The first g_capture_duty_cycle_num2_total is : %d\n",g_capture_duty_cycle_num2_total);
-        now = time(RT_NULL);
-        LOG_I("The first g_capture2_time is : %s\n", ctime(&now));
-    }
-    else if(count1 > 13)
-    {
-        count2 = 0;
-
-        LOG_I("The result g_capture_num2_total is : %d\n",g_capture_num2_total / 13);
-        LOG_I("The result g_capture_duty_cycle_num2_total is : %d\n",g_capture_duty_cycle_num2_total / 13);
-        now = time(RT_NULL);
-        LOG_I("The result g_capture2_time is : %s\n", ctime(&now));
+        span = rotate_speed2 - rotate_speed1;
     }
     else
     {
-        count2++;     //ÖÜÆÚÃ¿´¥·¢Ò»´Î¾Í×ÔÔöÒ»´Î£¬µ½13ÇåÁãÖØĞÂÀÛ¼Æ
+        span = rotate_speed1 - rotate_speed2;
     }
+    return span;
 }
 
