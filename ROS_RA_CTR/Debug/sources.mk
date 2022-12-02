@@ -22,12 +22,14 @@ SUBDIRS := \
 board/ports \
 libraries/HAL_Drivers \
 packages/mpu6xxx-latest/src \
+packages/rt_vsnprintf_full-latest \
 ra/fsp/src/bsp/cmsis/Device/RENESAS/Source \
 ra/fsp/src/bsp/mcu/all \
 ra/fsp/src/r_gpt \
 ra/fsp/src/r_icu \
 ra/fsp/src/r_iic_master \
 ra/fsp/src/r_ioport \
+ra/fsp/src/r_rtc \
 ra/fsp/src/r_sci_uart \
 ra_gen \
 rt-thread/components/drivers/hwtimer \

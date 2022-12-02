@@ -17,4 +17,6 @@
 void exit1_callback(external_irq_callback_args_t *p_args);
 void exit4_callback(external_irq_callback_args_t *p_args);
 
+float span_Calc(void);
+
 #endif /* SRC_ENCODER_CB_H_ */

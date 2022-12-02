@@ -5,7 +5,7 @@
  *
  * Change Logs:
  * Date           Author       Notes
- * 2022-10-16     閲戦懌       the first version
+ * 2022-11-06     Yifang       the first version
  */
 #ifndef SRC_PWM_CONFIG_H_
 #define SRC_PWM_CONFIG_H_
@@ -13,14 +13,15 @@
 #include <rtthread.h>
 #include "hal_data.h"
 #include <rtdevice.h>
+#include "encoder_cb.h"
 
 #define PWM1_DEV_NAME   ("pwm8")
 #define PWM1_CH         (0)
 
-#define PWM2_DEV_NAME   ("pwm8")
-#define PWM2_CH         (1)
+#define PWM2_DEV_NAME   ("pwm7")
+#define PWM2_CH         (0)
 
-#define PWM_PERIOD  1000000
+#define PWM_PERIOD  1000000     //最大频率为50kHZ
 
 int pwm_init(void);
 rt_err_t pwm_set_pulse(struct rt_device_pwm * pwm_dev,rt_uint32_t pulse_val);

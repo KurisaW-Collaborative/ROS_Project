@@ -3,7 +3,7 @@
         #define VECTOR_DATA_H
                 /* Number of interrupts allocated */
         #ifndef VECTOR_DATA_IRQ_COUNT
-        #define VECTOR_DATA_IRQ_COUNT    (15)
+        #define VECTOR_DATA_IRQ_COUNT    (18)
         #endif
         /* ISR prototypes */
         void sci_uart_rxi_isr(void);
@@ -15,6 +15,8 @@
         void iic_master_txi_isr(void);
         void iic_master_tei_isr(void);
         void iic_master_eri_isr(void);
+        void gpt_counter_overflow_isr(void);
+        void rtc_carry_isr(void);
 
         /* Vector table allocations */
         #define VECTOR_NUMBER_SCI7_RXI ((IRQn_Type) 0) /* SCI7 RXI (Received data full) */
@@ -43,8 +45,14 @@
         #define IIC0_TEI_IRQn          ((IRQn_Type) 11) /* IIC0 TEI (Transmit end) */
         #define VECTOR_NUMBER_IIC0_ERI ((IRQn_Type) 12) /* IIC0 ERI (Transfer error) */
         #define IIC0_ERI_IRQn          ((IRQn_Type) 12) /* IIC0 ERI (Transfer error) */
-        #define VECTOR_NUMBER_ICU_IRQ1 ((IRQn_Type) 13) /* ICU IRQ1 (External pin interrupt 1) */
-        #define ICU_IRQ1_IRQn          ((IRQn_Type) 13) /* ICU IRQ1 (External pin interrupt 1) */
-        #define VECTOR_NUMBER_ICU_IRQ4 ((IRQn_Type) 14) /* ICU IRQ4 (External pin interrupt 4) */
-        #define ICU_IRQ4_IRQn          ((IRQn_Type) 14) /* ICU IRQ4 (External pin interrupt 4) */
+        #define VECTOR_NUMBER_GPT3_COUNTER_OVERFLOW ((IRQn_Type) 13) /* GPT3 COUNTER OVERFLOW (Overflow) */
+        #define GPT3_COUNTER_OVERFLOW_IRQn          ((IRQn_Type) 13) /* GPT3 COUNTER OVERFLOW (Overflow) */
+        #define VECTOR_NUMBER_GPT2_COUNTER_OVERFLOW ((IRQn_Type) 14) /* GPT2 COUNTER OVERFLOW (Overflow) */
+        #define GPT2_COUNTER_OVERFLOW_IRQn          ((IRQn_Type) 14) /* GPT2 COUNTER OVERFLOW (Overflow) */
+        #define VECTOR_NUMBER_ICU_IRQ1 ((IRQn_Type) 15) /* ICU IRQ1 (External pin interrupt 1) */
+        #define ICU_IRQ1_IRQn          ((IRQn_Type) 15) /* ICU IRQ1 (External pin interrupt 1) */
+        #define VECTOR_NUMBER_ICU_IRQ4 ((IRQn_Type) 16) /* ICU IRQ4 (External pin interrupt 4) */
+        #define ICU_IRQ4_IRQn          ((IRQn_Type) 16) /* ICU IRQ4 (External pin interrupt 4) */
+        #define VECTOR_NUMBER_RTC_CARRY ((IRQn_Type) 17) /* RTC CARRY (Carry interrupt) */
+        #define RTC_CARRY_IRQn          ((IRQn_Type) 17) /* RTC CARRY (Carry interrupt) */
         #endif /* VECTOR_DATA_H */

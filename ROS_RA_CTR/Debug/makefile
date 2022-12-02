@@ -26,12 +26,14 @@ RM := rm -rf
 -include rt-thread/components/drivers/hwtimer/subdir.mk
 -include ra_gen/subdir.mk
 -include ra/fsp/src/r_sci_uart/subdir.mk
+-include ra/fsp/src/r_rtc/subdir.mk
 -include ra/fsp/src/r_ioport/subdir.mk
 -include ra/fsp/src/r_iic_master/subdir.mk
 -include ra/fsp/src/r_icu/subdir.mk
 -include ra/fsp/src/r_gpt/subdir.mk
 -include ra/fsp/src/bsp/mcu/all/subdir.mk
 -include ra/fsp/src/bsp/cmsis/Device/RENESAS/Source/subdir.mk
+-include packages/rt_vsnprintf_full-latest/subdir.mk
 -include packages/mpu6xxx-latest/src/subdir.mk
 -include libraries/HAL_Drivers/subdir.mk
 -include board/ports/subdir.mk
@@ -68,7 +70,7 @@ all: rtthread.elf secondary-outputs
 
 # 工具调用
 rtthread.elf: $(OBJS) $(USER_OBJS)
-	arm-none-eabi-gcc -T "D:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\script\fsp.ld" -Xlinker --gc-sections -L"D:\RT-Thread\RT-ThreadStudio\workspace_backup\ROS_RA_CTR\script" -Wl,-Map,"rtthread.map" -Xlinker --cref -mcpu=cortex-m33 -mthumb -mfpu=fpv5-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,Reset_Handler -L script/ -o "rtthread.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -T "D:\Desktop\ROS_Project-Team\ROS_RA_CTR\script\fsp.ld" -Xlinker --gc-sections -L"D:\Desktop\ROS_Project-Team\ROS_RA_CTR\script" -Wl,-Map,"rtthread.map" -Xlinker --cref -mcpu=cortex-m33 -mthumb -mfpu=fpv5-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -Wl,--gc-sections,-Map=rtthread.map,-cref,-u,Reset_Handler -L script/ -o "rtthread.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 
 rtthread.hex: rtthread.elf
 	arm-none-eabi-objcopy -O ihex "rtthread.elf"  "rtthread.hex"
