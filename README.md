@@ -1,2 +1,3 @@
 # ROS_Project-Team
-该仓库用于ROS项目组，立项于2022.10.13
+
+The warehouse is used for the ROS project team, and the project was established on 2022.10.13
