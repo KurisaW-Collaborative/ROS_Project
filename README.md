@@ -4,6 +4,9 @@
   <a href="https://github.com/KurisaW-Collaborative/ROS_Project" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
+  <a href="https://github.com/KurisaW-Collaborative/ROS_Project/graphs/contributors" target="_blank">
+    <img alt="Contributors" src="https://img.shields.io/github/contributors/KurisaW-Collaborative/ROS_Project" />
+  </a>
   <a href="https://github.com/KurisaW-Collaborative/ROS_Project/blob/main/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
@@ -11,7 +14,6 @@
     <img alt="Twitter: https://twitter.com/KurisaWhh" src="https://img.shields.io/twitter/follow/KurisaWhh.svg?style=social" />
   </a>
 </p>
-
 
 > The repository is used for the ROS project team, and the project was established on 2022.10.13
 
@@ -31,6 +33,28 @@
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/KurisaW-Collaborative/ROS_Project/issues). 
+
+Thank you for submitting code contributions to the project repositor：
+
+<!-- Avatar and User Name Section -->
+<div style="text-align: center;">
+  <a href="https://github.com/kurisaW">
+    <img src="https://avatars.githubusercontent.com/u/98592772?v=4" width="70" alt="kurisaW">
+    <p style="margin-top: 5px;">kurisaW</p>
+  </a>
+</div>
+<div style="text-align: center;">
+  <a href="https://github.com/wkaien">
+    <img src="https://avatars.githubusercontent.com/u/114553677?v=4" width="70" alt="wkaien">
+    <p style="margin-top: 5px;">wkaien</p>
+  </a>
+</div>
+<div style="text-align: center;">
+  <a href="https://github.com/Nedki-L">
+    <img src="https://avatars.githubusercontent.com/u/114712457?v=4" width="70" alt="Nedki-L">
+    <p style="margin-top: 5px;">Nedki-L</p>
+  </a>
+</div>
 
 ## Show your support
 
