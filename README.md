@@ -34,7 +34,7 @@
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/KurisaW-Collaborative/ROS_Project/issues). 
 
-Thank you for submitting code contributions to the project repositor：
+**Thank you for submitting code contributions to the project repositor：**
 
 <!-- Avatar and User Name Section -->
 <div style="text-align: center;">
