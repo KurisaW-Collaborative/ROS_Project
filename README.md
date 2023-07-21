@@ -7,8 +7,8 @@
   <a href="https://github.com/KurisaW-Collaborative/ROS_Project/blob/main/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="https://twitter.com/https:\/\/twitter.com\/KurisaWhh" target="_blank">
-    <img alt="Twitter: https:\/\/twitter.com\/KurisaWhh" src="https://img.shields.io/twitter/follow/https:\/\/twitter.com\/KurisaWhh.svg?style=social" />
+  <a href="https://twitter.com/KurisaWhh" target="_blank">
+    <img alt="Twitter: https://twitter.com/KurisaWhh" src="https://img.shields.io/twitter/follow/KurisaWhh.svg?style=social" />
   </a>
 </p>
 
@@ -24,7 +24,7 @@
 👤 **kurisaW**
 
 * Website: https://kurisaw.eu.org/
-* Twitter: [@https:\/\/twitter.com\/KurisaWhh](https://twitter.com/https:\/\/twitter.com\/KurisaWhh)
+* Twitter: [@https:\/\/twitter.com\/KurisaWhh](https://twitter.com/KurisaWhh)
 * Github: [@KurisaW-Collaborative](https://github.com/KurisaW-Collaborative)
 * LinkedIn: [@kurisaW](https://linkedin.com/in/kurisaW)
 
