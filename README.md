@@ -70,7 +70,7 @@ Give a ⭐️ if this project helped you!
 
 <div align="center">
   
-Copyright © 2023 [kurisaW](https://github.com/KurisaW-Collaborative).<br />
+Copyright © 2023 [KurisaW-Collaborative](https://github.com/KurisaW-Collaborative).<br />
 This project is [MIT](https://github.com/KurisaW-Collaborative/ROS_Project/blob/main/LICENSE) licensed.
 </dtv>
 
